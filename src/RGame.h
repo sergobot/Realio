@@ -24,10 +24,16 @@ public:
     RGame(std::string name);
     ~RGame();
 
-    //Set name of a game
+    /**
+     * @brief sets a name for the game.
+     * @param name.
+     */
     void setName(std::string name);
 
-    //Get name of a game
+    /**
+     * @brief .
+     * @return current name, placed in std::string.
+     */
     std::string getName();
 
 private:
