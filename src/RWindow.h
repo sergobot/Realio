@@ -48,10 +48,25 @@ public:
      */
     void hide();
 
+    /**
+     * @brief sets the window's title to a new one.
+     * @param reference to a user's std::string.
+     * @return void.
+     */
+    void setTitle(const std::string title);
+
+    /**
+     * @brief returns the window's title.
+     * @param void.
+     * @return current title, placed in std::string.
+     */
+    std::string getTitle();
+
 private:
     std::string *m_title;
     SDL_Window* m_window;
 
+    // Window's width and height
     int m_width;
     int m_height;
 
