@@ -18,7 +18,7 @@
 #include "RGame.h"
 
 namespace Realio {
-RGame::RGame(const std::string name = "")
+RGame::RGame(const std::string & name = "")
 {
     m_name = new std::string;
     *m_name = name;
@@ -29,7 +29,7 @@ RGame::~RGame()
     delete m_name;
 }
 
-void RGame::setName(std::string name = "")
+void RGame::setName(const std::string & name = "")
 {
     *m_name = name;
 }

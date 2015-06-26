@@ -18,7 +18,7 @@
 #include "RWindow.h"
 
 namespace Realio {
-RWindow::RWindow(const std::string title)
+RWindow::RWindow(const std::string & title = "")
 {
     m_title = new std::string;
     *m_title = title;
@@ -93,7 +93,7 @@ void RWindow::hide()
     SDL_HideWindow(m_window);
 }
 
-void RWindow::setTitle(const std::string title)
+void RWindow::setTitle(const std::string & title = "")
 {
     *m_title = title;
 }

@@ -22,7 +22,7 @@ namespace Realio {
 class RGame
 {
 public:
-    RGame(std::string name);
+    RGame(const std::string & name);
     ~RGame();
 
     /**
@@ -30,7 +30,7 @@ public:
      * @param name.
      * @return void.
      */
-    void setName(std::string name);
+    void setName(const std::string & name);
 
     /**
      * @brief returns current name of the game.

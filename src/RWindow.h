@@ -24,7 +24,7 @@ namespace Realio {
 class RWindow
 {
 public:
-    RWindow(const std::string title);
+    RWindow(const std::string & title);
     ~RWindow();
 
     /**
@@ -53,7 +53,7 @@ public:
      * @param reference to a user's std::string.
      * @return void.
      */
-    void setTitle(const std::string title);
+    void setTitle(const std::string & title);
 
     /**
      * @brief returns the window's title.
