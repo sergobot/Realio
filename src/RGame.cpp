@@ -14,9 +14,11 @@
  * Copyright (C) 2015 Sergey Popov <sergobot@vivaldi.net>
 **/
 
+//Realio
 #include "RGame.h"
+
 namespace Realio {
-RGame::RGame(std::string name = "")
+RGame::RGame(const std::string name = "")
 {
     m_name = new std::string;
     *m_name = name;
@@ -30,5 +32,10 @@ RGame::~RGame()
 void RGame::setName(std::string name = "")
 {
     *m_name = name;
+}
+
+std::string RGame::getName()
+{
+    return *m_name;
 }
 }

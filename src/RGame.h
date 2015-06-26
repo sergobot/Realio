@@ -14,6 +14,7 @@
  * Copyright (C) 2015 Sergey Popov <sergobot@vivaldi.net>
 **/
 
+//C++
 #include <iostream>
 #include <string>
 
@@ -27,11 +28,13 @@ public:
     /**
      * @brief sets a name for the game.
      * @param name.
+     * @return void.
      */
     void setName(std::string name);
 
     /**
-     * @brief .
+     * @brief returns current name of the game.
+     * @param void.
      * @return current name, placed in std::string.
      */
     std::string getName();
