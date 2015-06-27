@@ -14,6 +14,9 @@
  * Copyright (C) 2015 Sergey Popov <sergobot@vivaldi.net>
 **/
 
+#ifndef RWINDOW_H
+#define RWINDOW_H
+
 //C++
 #include <iostream>
 #include <string>
@@ -78,3 +81,5 @@ private:
     bool initializeSdl();
 };
 }
+
+#endif // RWINDOW_H

@@ -14,6 +14,9 @@
  * Copyright (C) 2015 Sergey Popov <sergobot@vivaldi.net>
 **/
 
+#ifndef RGAME_H
+#define RGAME_H
+
 //C++
 #include <iostream>
 #include <string>
@@ -43,3 +46,5 @@ private:
     std::string *m_name;
 };
 }
+
+#endif // RGAME_H
