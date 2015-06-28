@@ -102,4 +102,11 @@ std::string RWindow::getTitle()
 {
     return *m_title;
 }
+
+void RWindow::addWidget(RWidget & wgt)
+{
+    RWidget* widget = new RWidget;
+    *widget = wgt;
+    m_widgets.push_back(widget);
+}
 }

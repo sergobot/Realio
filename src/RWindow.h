@@ -20,8 +20,11 @@
 //C++
 #include <iostream>
 #include <string>
+#include <vector>
 //SDL2
 #include <SDL2/SDL.h>
+//Realio
+#include "RWidget.h"
 
 namespace Realio {
 class RWindow
@@ -65,9 +68,17 @@ public:
      */
     std::string getTitle();
 
+    /**
+     * @brief adds a widget to the window.
+     * @param reference to a RWidget object.
+     * @return void.
+     */
+    void addWidget(RWidget & wgt);
+
 private:
     std::string *m_title;
     SDL_Window* m_window;
+    std::vector<RWidget*> m_widgets;
 
     // Window's width and height
     int m_width;
