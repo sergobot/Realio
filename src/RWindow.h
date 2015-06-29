@@ -23,6 +23,7 @@
 #include <vector>
 //SDL2
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 //Realio
 #include "RWidget.h"
 
@@ -76,10 +77,13 @@ public:
     void addWidget(RWidget & wgt);
 
 private:
-    std::string *m_title;
+    std::string* m_title;
     SDL_Window* m_window;
-    std::vector<RWidget*> m_widgets;
+    SDL_Renderer* m_renderer;
 
+    RWidget** m_widgets[];
+    //char* m_names;
+    int* m_IDs;
     // Window's width and height
     int m_width;
     int m_height;
@@ -89,7 +93,7 @@ private:
      * @param void.
      * @return True, if SDL is initialized. False, if not.
      */
-    bool initializeSdl();
+    bool initializeSDL();
 };
 }
 

@@ -23,7 +23,7 @@ RWindow::RWindow(const std::string & title = "")
     m_title = new std::string;
     *m_title = title;
 
-    if(!initializeSdl())
+    if(!initializeSDL())
     {
         std::cerr << "Exiting.\n";
         std::exit(1);
@@ -37,7 +37,7 @@ RWindow::~RWindow()
     delete m_title;
 }
 
-bool RWindow::initializeSdl()
+bool RWindow::initializeSDL()
 {
     if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
     {
@@ -105,8 +105,38 @@ std::string RWindow::getTitle()
 
 void RWindow::addWidget(RWidget & wgt)
 {
-    RWidget* widget = new RWidget;
+    RWidget* widget = new RWidget(0, 0, 0, 0);
     *widget = wgt;
-    m_widgets.push_back(widget);
+    int id = widget->getID();
+    //TODO: Add objectName
+    //char* chr[] = widget->getObjectName();
+
+    int size = sizeof(m_IDs);
+    int *temp;
+    temp = new int[size + 1]; // Create temporary array
+    memmove(temp, m_IDs, size); // Move data from original array to the temp
+    delete[] m_IDs;
+    m_IDs = temp;
+    m_IDs[size + 1] = id;
+
+    size = sizeof(m_widgets);
+    RWidget **tmpWgt;
+    tmpWgt = new RWidget*[size + 1]; // Create temporary array
+    memmove(tmpWgt, m_widgets, size); // Move data from original array to the temp
+
+    for(int i = 0; i < size; i++)
+    {
+        delete[] m_widgets[i];
+    }
+    delete[] m_widgets;
+
+    tmpWgt[size + 1] = widget;
+    memmove(m_widgets, tmpWgt, size);
+
+    for(int i = 0; i < size; i++)
+    {
+        delete[] tmpWgt[i];
+    }
+    delete[] tmpWgt;
 }
 }

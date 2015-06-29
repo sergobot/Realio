@@ -1,6 +1,5 @@
 # Realio
-Basic OpenSource and cross-platform game engine, written in C++. 
-
+Basic OpenSource and cross-platform game engine, written in C++.
 Based on SDL2, GLEW, GLM and Assimp
 
 ## Building

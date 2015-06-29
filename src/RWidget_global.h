@@ -14,52 +14,11 @@
  * Copyright (C) 2015 Sergey Popov <sergobot@vivaldi.net>
 **/
 
-//Realio
-#include "RWidget.h"
-#include "RWidget_global.h"
+//ID of the last created RWidget.
+//Don't change it manually!
+int lastID = 0;
 
-namespace Realio {
-RWidget::RWidget(const int x = 0, const int y = 0, const int w = 0, const int h = 0)
+inline int generateID()
 {
-    m_rect.x = x;
-    m_rect.y = y;
-    m_rect.w = w;
-    m_rect.h = h;
-
-    m_id = generateID();
-}
-
-RWidget::~RWidget()
-{
-
-}
-
-void RWidget::moveTo(int & x, int & y)
-{
-    m_rect.x = x;
-    m_rect.y = y;
-}
-
-void RWidget::getPosition(int *x, int *y)
-{
-    *x = m_rect.x;
-    *y = m_rect.y;
-}
-
-void RWidget::resize(int & w, int & h)
-{
-    m_rect.w = w;
-    m_rect.h = h;
-}
-
-void RWidget::getSize(int *w, int *h)
-{
-    *w = m_rect.w;
-    *h = m_rect.h;
-}
-
-int RWidget::getID()
-{
-    return m_id;
-}
+    return ++lastID;
 }
