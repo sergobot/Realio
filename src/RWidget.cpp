@@ -34,7 +34,7 @@ RWidget::~RWidget()
 
 }
 
-void RWidget::moveTo(int & x, int & y)
+void RWidget::moveTo(const int & x, const int & y)
 {
     m_rect.x = x;
     m_rect.y = y;
@@ -46,7 +46,7 @@ void RWidget::getPosition(int *x, int *y)
     *y = m_rect.y;
 }
 
-void RWidget::resize(int & w, int & h)
+void RWidget::resize(const int & w, const int & h)
 {
     m_rect.w = w;
     m_rect.h = h;

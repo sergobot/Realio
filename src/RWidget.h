@@ -32,7 +32,7 @@ public:
      * @param references to two integers.
      * @return void.
      */
-    void moveTo(int & x, int & y);
+    void moveTo(const int & x, const int & y);
 
     /**
      * @brief sets the x and y integers to current position.
@@ -46,7 +46,7 @@ public:
      * @param references to two integers.
      * @return void.
      */
-    void resize(int & w, int & h);
+    void resize(const int & w, const int & h);
 
     /**
      * @brief sets the w and h integers to current size.
