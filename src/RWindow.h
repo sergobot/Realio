@@ -74,16 +74,17 @@ public:
      * @param reference to a RWidget object.
      * @return void.
      */
-    void addWidget(RWidget & wgt);
+    void addWidget(RWidget *wgt);
 
 private:
     std::string* m_title;
     SDL_Window* m_window;
     SDL_Renderer* m_renderer;
 
-    RWidget** m_widgets[];
-    //char* m_names;
+    std::vector<RWidget*> m_widgets;
+    //std::vector<std::string*> m_names;
     int* m_IDs;
+
     // Window's width and height
     int m_width;
     int m_height;
