@@ -77,12 +77,11 @@ public:
     void addWidget(RWidget *wgt);
 
 private:
-    std::string* m_title;
+    std::string m_title;
     SDL_Window* m_window;
     SDL_Renderer* m_renderer;
 
     std::vector<RWidget*> m_widgets;
-    //std::vector<std::string*> m_names;
     int* m_IDs;
 
     // Window's width and height

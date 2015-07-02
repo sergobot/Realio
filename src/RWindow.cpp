@@ -20,8 +20,7 @@
 namespace Realio {
 RWindow::RWindow(const std::string & title = "")
 {
-    m_title = new std::string;
-    *m_title = title;
+    m_title = title;
 
     if(!initializeSDL())
     {
@@ -34,11 +33,12 @@ RWindow::~RWindow()
 {
     SDL_DestroyWindow(m_window);
     SDL_Quit();
-    delete m_title;
 }
 
 bool RWindow::initializeSDL()
 {
+    SDL_DisplayMode current;
+
     if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
     {
         std::cerr << "Could not initialize SDL: " << SDL_GetError();
@@ -49,8 +49,6 @@ bool RWindow::initializeSDL()
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-
-    SDL_DisplayMode current;
 
     if(SDL_GetCurrentDisplayMode(0, &current) != 0)
     {
@@ -67,13 +65,28 @@ bool RWindow::initializeSDL()
     }
 
     m_window = SDL_CreateWindow(
-                m_title->data(),
+                m_title.data(),
                 SDL_WINDOWPOS_UNDEFINED,
                 SDL_WINDOWPOS_UNDEFINED,
                 m_width, m_height,
                 SDL_WINDOW_OPENGL |
                 SDL_WINDOW_FULLSCREEN_DESKTOP |
                 SDL_WINDOW_HIDDEN);
+
+    if(m_window == nullptr)
+    {
+        std::cerr << "Could not iniialize SDL Window: " << SDL_GetError();
+        std::cerr << std::endl;
+        return false;
+    }
+
+    m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (m_renderer == nullptr)
+    {
+        std::cerr << "Could not create SDL Renderer: " << SDL_GetError();
+        std::cerr << std::endl;
+        return false;
+    }
 
     return true;
 }
@@ -95,12 +108,12 @@ void RWindow::hide()
 
 void RWindow::setTitle(const std::string & title = "")
 {
-    *m_title = title;
+    m_title = title;
 }
 
 std::string RWindow::getTitle()
 {
-    return *m_title;
+    return m_title;
 }
 
 void RWindow::addWidget(RWidget *wgt)
@@ -108,10 +121,6 @@ void RWindow::addWidget(RWidget *wgt)
     m_widgets.push_back(wgt);
 
     int id = wgt->getID();
-
-    //TODO: Add objectName property
-    //std::strirng *str = &(widget->getObjectName());
-    //m_names.push_back(str);
 
     int size = sizeof(m_IDs); // Get current size of the m_IDs array
     int *temp;
