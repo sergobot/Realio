@@ -19,7 +19,11 @@
 #include "RWidget_global.h"
 
 namespace Realio {
-RWidget::RWidget(const int x = 0, const int y = 0, const int w = 0, const int h = 0)
+RWidget::RWidget(
+        const int x = 0,
+        const int y = 0,
+        const int w = 0,
+        const int h = 0)
 {
     m_rect.x = x;
     m_rect.y = y;
@@ -61,5 +65,10 @@ void RWidget::getSize(int *w, int *h)
 int RWidget::getID()
 {
     return m_id;
+}
+
+void RWidget::setRenderer(SDL_Renderer *renderer)
+{
+    m_renderer = renderer;
 }
 }
