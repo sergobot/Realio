@@ -25,6 +25,7 @@ RWindow::RWindow(const std::string & title = "")
     if(!initializeSDL())
     {
         std::cerr << "Exiting.\n";
+        SDL_Quit();
         std::exit(1);
     }
 }
@@ -32,6 +33,7 @@ RWindow::RWindow(const std::string & title = "")
 RWindow::~RWindow()
 {
     SDL_DestroyWindow(m_window);
+    SDL_DestroyRenderer(m_renderer);
     SDL_Quit();
 }
 
@@ -85,6 +87,7 @@ bool RWindow::initializeSDL()
     {
         std::cerr << "Could not create SDL Renderer: " << SDL_GetError();
         std::cerr << std::endl;
+        SDL_DestroyWindow(m_window);
         return false;
     }
 
@@ -118,16 +121,9 @@ std::string RWindow::getTitle()
 
 void RWindow::addWidget(RWidget *wgt)
 {
+    wgt->setRenderer(m_renderer);
     m_widgets.push_back(wgt);
 
-    int id = wgt->getID();
-
-    int size = sizeof(m_IDs); // Get current size of the m_IDs array
-    int *temp;
-    temp = new int[size + 1]; // Create temporary array
-    memmove(temp, m_IDs, size); // Move data from original array to the temp
-    delete[] m_IDs;
-    m_IDs = temp;
-    m_IDs[size + 1] = id;
+    m_IDs.push_back(wgt->getID());
 }
 }

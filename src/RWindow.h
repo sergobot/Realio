@@ -82,7 +82,7 @@ private:
     SDL_Renderer* m_renderer;
 
     std::vector<RWidget*> m_widgets;
-    int* m_IDs;
+    std::vector<int> m_IDs;
 
     // Window's width and height
     int m_width;
