@@ -14,16 +14,35 @@
  * Copyright (C) 2015 Sergey Popov <sergobot@vivaldi.net>
 **/
 
+//Realio
 #include "RPixmapWidget.h"
 
 namespace Realio {
-RPixmapWidget::RPixmapWidget()
+RPixmapWidget::RPixmapWidget(
+        const int x = 0,
+        const int y = 0,
+        const int w = 0,
+        const int h = 0)
+    : RWidget(x,y,w,h)
 {
-
+    imgLoaded = false;
 }
 
 RPixmapWidget::~RPixmapWidget()
 {
 
+}
+
+bool RPixmapWidget::loadFile(const char *file)
+{
+    // Add support for loading images
+    imgLoaded = true;
+
+    return imgLoaded;
+}
+
+void RPixmapWidget::showPixmap()
+{
+    // Add support for rendering images
 }
 }

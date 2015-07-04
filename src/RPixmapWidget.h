@@ -17,6 +17,8 @@
 #ifndef RPIXMAPWIDGET_H
 #define RPIXMAPWIDGET_H
 
+//SDL2
+#include <SDL2/SDL.h>
 //Realio
 #include "RWidget.h"
 
@@ -24,8 +26,25 @@ namespace Realio {
 class RPixmapWidget : public RWidget
 {
 public:
-    RPixmapWidget();
+    RPixmapWidget(const int x, const int y, const int w, const int h);
     ~RPixmapWidget();
+
+    /**
+     * @brief loads the image into the widget.
+     * @param const char array.
+     * @return True, if file is successfully loaded. False, if not.
+     */
+    bool loadFile(const char *file);
+
+    /**
+     * @brief shows up the pixmap to the widget.
+     * @param void.
+     * @return void.
+     */
+    void showPixmap();
+
+private:
+    bool imgLoaded;
 };
 }
 
