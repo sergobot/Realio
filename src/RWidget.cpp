@@ -25,10 +25,10 @@ RWidget::RWidget(
         const int w = 0,
         const int h = 0)
 {
-    m_rect.x = x;
-    m_rect.y = y;
-    m_rect.w = w;
-    m_rect.h = h;
+    xPos = x;
+    yPos = y;
+    width = w;
+    height = h;
 
     m_id = generateID();
 }
@@ -40,35 +40,30 @@ RWidget::~RWidget()
 
 void RWidget::moveTo(const int & x, const int & y)
 {
-    m_rect.x = x;
-    m_rect.y = y;
+    xPos = x;
+    yPos = y;
 }
 
 void RWidget::getPosition(int *x, int *y)
 {
-    *x = m_rect.x;
-    *y = m_rect.y;
+    *x = xPos;
+    *y = yPos;
 }
 
 void RWidget::resize(const int & w, const int & h)
 {
-    m_rect.w = w;
-    m_rect.h = h;
+    width = w;
+    height = h;
 }
 
 void RWidget::getSize(int *w, int *h)
 {
-    *w = m_rect.w;
-    *h = m_rect.h;
+    *w = width;
+    *h = height;
 }
 
 int RWidget::getID()
 {
     return m_id;
-}
-
-void RWidget::setRenderer(SDL_Renderer *renderer)
-{
-    m_renderer = renderer;
 }
 }

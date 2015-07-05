@@ -28,12 +28,15 @@ RWindow::RWindow(const std::string & title = "")
         SDL_Quit();
         std::exit(1);
     }
+
+    glewExperimental = GL_TRUE;
+    glewInit();
 }
 
 RWindow::~RWindow()
 {
     SDL_DestroyWindow(m_window);
-    SDL_DestroyRenderer(m_renderer);
+    SDL_GL_DeleteContext(m_context);
     SDL_Quit();
 }
 
@@ -82,14 +85,8 @@ bool RWindow::initializeSDL()
         return false;
     }
 
-    m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (m_renderer == nullptr)
-    {
-        std::cerr << "Could not create SDL Renderer: " << SDL_GetError();
-        std::cerr << std::endl;
-        SDL_DestroyWindow(m_window);
-        return false;
-    }
+    m_surface = SDL_GetWindowSurface(m_window);
+    m_context = SDL_GL_CreateContext(m_window);
 
     return true;
 }
@@ -121,9 +118,7 @@ std::string RWindow::getTitle()
 
 void RWindow::addWidget(RWidget *wgt)
 {
-    wgt->setRenderer(m_renderer);
     m_widgets.push_back(wgt);
-
     m_IDs.push_back(wgt->getID());
 }
 }

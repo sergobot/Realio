@@ -78,7 +78,9 @@ public:
 private:
     std::string m_title;
     SDL_Window* m_window;
-    SDL_Renderer* m_renderer;
+    SDL_Surface* m_surface;
+    SDL_GLContext m_context;
+
 
     std::vector<RWidget*> m_widgets;
     std::vector<int> m_IDs;
