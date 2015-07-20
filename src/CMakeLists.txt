@@ -31,7 +31,7 @@ include_directories(${SDL2_INCLUDE_DIR} ${GLM_INCLUDE_DIRS} ${ASSIMP_INCLUDE_DIR
 add_library (Realio SHARED ${TARGET_SRC})
 target_link_libraries (Realio ${Realio_libs})
 
-add_executable (testGame main.cpp)
+add_executable (testGame test/main.cpp)
 target_link_libraries (testGame Realio)
 
 install (TARGETS Realio DESTINATION lib)

@@ -19,6 +19,8 @@
 
 //SDL2
 #include <SDL2/SDL.h>
+//GLEW
+#include <GL/glew.h>
 
 namespace Realio {
 class RWidget
@@ -63,8 +65,11 @@ public:
     int getID();
 
 private:
-    SDL_Rect m_rect;
     int m_id;
+    int xPos;
+    int yPos;
+    int width;
+    int height;
 };
 }
 

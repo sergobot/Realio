@@ -20,25 +20,33 @@
 namespace Realio {
 RWindow::RWindow(const std::string & title = "")
 {
-    m_title = new std::string;
-    *m_title = title;
+    m_title = title;
 
     if(!initializeSDL())
     {
         std::cerr << "Exiting.\n";
+        SDL_Quit();
         std::exit(1);
     }
+
+    glewExperimental = GL_TRUE;
+    glewInit();
+
+    glViewport(0, 0, m_width, m_height);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 RWindow::~RWindow()
 {
-    SDL_DestroyWindow(m_window);
+    SDL_GL_DeleteContext(m_context);
     SDL_Quit();
-    delete m_title;
 }
 
 bool RWindow::initializeSDL()
 {
+    SDL_DisplayMode current;
+
     if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
     {
         std::cerr << "Could not initialize SDL: " << SDL_GetError();
@@ -49,8 +57,6 @@ bool RWindow::initializeSDL()
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-
-    SDL_DisplayMode current;
 
     if(SDL_GetCurrentDisplayMode(0, &current) != 0)
     {
@@ -67,13 +73,23 @@ bool RWindow::initializeSDL()
     }
 
     m_window = SDL_CreateWindow(
-                m_title->data(),
+                m_title.data(),
                 SDL_WINDOWPOS_UNDEFINED,
                 SDL_WINDOWPOS_UNDEFINED,
                 m_width, m_height,
                 SDL_WINDOW_OPENGL |
                 SDL_WINDOW_FULLSCREEN_DESKTOP |
                 SDL_WINDOW_HIDDEN);
+
+    if(m_window == nullptr)
+    {
+        std::cerr << "Could not iniialize SDL Window: " << SDL_GetError();
+        std::cerr << std::endl;
+        return false;
+    }
+
+    m_surface = SDL_GetWindowSurface(m_window);
+    m_context = SDL_GL_CreateContext(m_window);
 
     return true;
 }
@@ -95,30 +111,23 @@ void RWindow::hide()
 
 void RWindow::setTitle(const std::string & title = "")
 {
-    *m_title = title;
+    m_title = title;
 }
 
 std::string RWindow::getTitle()
 {
-    return *m_title;
+    return m_title;
 }
 
 void RWindow::addWidget(RWidget *wgt)
 {
     m_widgets.push_back(wgt);
+    m_IDs.push_back(wgt->getID());
+}
 
-    int id = wgt->getID();
-
-    //TODO: Add objectName property
-    //std::strirng *str = &(widget->getObjectName());
-    //m_names.push_back(str);
-
-    int size = sizeof(m_IDs); // Get current size of the m_IDs array
-    int *temp;
-    temp = new int[size + 1]; // Create temporary array
-    memmove(temp, m_IDs, size); // Move data from original array to the temp
-    delete[] m_IDs;
-    m_IDs = temp;
-    m_IDs[size + 1] = id;
+void RWindow::update()
+{
+    SDL_UpdateWindowSurface(m_window);
+    SDL_GL_SwapWindow(m_window);
 }
 }

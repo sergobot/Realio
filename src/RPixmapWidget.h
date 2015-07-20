@@ -14,56 +14,42 @@
  * Copyright (C) 2015 Sergey Popov <sergobot@vivaldi.net>
 **/
 
+#ifndef RPIXMAPWIDGET_H
+#define RPIXMAPWIDGET_H
+
+//SDL2
+#include <SDL2/SDL.h>
 //Realio
 #include "RWidget.h"
-#include "RWidget_global.h"
 
 namespace Realio {
-RWidget::RWidget(
-        const int x = 0,
-        const int y = 0,
-        const int w = 0,
-        const int h = 0)
+class RPixmapWidget : public RWidget
 {
-    xPos = x;
-    yPos = y;
-    width = w;
-    height = h;
+public:
+    RPixmapWidget(const int x, const int y, const int w, const int h);
+    ~RPixmapWidget();
 
-    m_id = generateID();
+    /**
+     * @brief loads the image into the widget.
+     * @param const char array.
+     * @return True, if file is successfully loaded. False, if not.
+     */
+    bool loadFile(const char *file);
+
+    /**
+     * @brief shows up the pixmap to the widget.
+     * @param void.
+     * @return void.
+     */
+    void showPixmap();
+
+private:
+    bool imgLoaded;
+    unsigned char* m_image;
+    int img_height, img_width;
+    GLuint m_texture;
+    GLuint VBO, VAO, EBO;
+};
 }
 
-RWidget::~RWidget()
-{
-
-}
-
-void RWidget::moveTo(const int & x, const int & y)
-{
-    xPos = x;
-    yPos = y;
-}
-
-void RWidget::getPosition(int *x, int *y)
-{
-    *x = xPos;
-    *y = yPos;
-}
-
-void RWidget::resize(const int & w, const int & h)
-{
-    width = w;
-    height = h;
-}
-
-void RWidget::getSize(int *w, int *h)
-{
-    *w = width;
-    *h = height;
-}
-
-int RWidget::getID()
-{
-    return m_id;
-}
-}
+#endif // RPIXMAPWIDGET_H

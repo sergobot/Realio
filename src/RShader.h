@@ -14,56 +14,35 @@
  * Copyright (C) 2015 Sergey Popov <sergobot@vivaldi.net>
 **/
 
-//Realio
-#include "RWidget.h"
-#include "RWidget_global.h"
+#ifndef RSHADER_H
+#define RSHADER_H
+
+//GLEW
+#include <GL/glew.h>
 
 namespace Realio {
-RWidget::RWidget(
-        const int x = 0,
-        const int y = 0,
-        const int w = 0,
-        const int h = 0)
+class RShader
 {
-    xPos = x;
-    yPos = y;
-    width = w;
-    height = h;
+public:
+    RShader(const char* vShader, const char* fShader);
 
-    m_id = generateID();
+    /**
+     * @brief uses the shader.
+     * @param void.
+     * @return void.
+     */
+    void use();
+
+    /**
+     * @brief returns the program.
+     * @param void.
+     * @return current shader program, placed in GLuint.
+     */
+    GLuint getProgram();
+
+private:
+    GLuint m_program;
+};
 }
 
-RWidget::~RWidget()
-{
-
-}
-
-void RWidget::moveTo(const int & x, const int & y)
-{
-    xPos = x;
-    yPos = y;
-}
-
-void RWidget::getPosition(int *x, int *y)
-{
-    *x = xPos;
-    *y = yPos;
-}
-
-void RWidget::resize(const int & w, const int & h)
-{
-    width = w;
-    height = h;
-}
-
-void RWidget::getSize(int *w, int *h)
-{
-    *w = width;
-    *h = height;
-}
-
-int RWidget::getID()
-{
-    return m_id;
-}
-}
+#endif // RSHADER_H
