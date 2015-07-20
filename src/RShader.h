@@ -14,42 +14,35 @@
  * Copyright (C) 2015 Sergey Popov <sergobot@vivaldi.net>
 **/
 
-#ifndef RPIXMAPWIDGET_H
-#define RPIXMAPWIDGET_H
+#ifndef RSHADER_H
+#define RSHADER_H
 
-//SDL2
-#include <SDL2/SDL.h>
-//Realio
-#include "RWidget.h"
+//GLEW
+#include <GL/glew.h>
 
 namespace Realio {
-class RPixmapWidget : public RWidget
+class RShader
 {
 public:
-    RPixmapWidget(const int x, const int y, const int w, const int h);
-    ~RPixmapWidget();
+    RShader(const char* vShader, const char* fShader);
 
     /**
-     * @brief loads the image into the widget.
-     * @param const char array.
-     * @return True, if file is successfully loaded. False, if not.
-     */
-    bool loadFile(const char *file);
-
-    /**
-     * @brief shows up the pixmap to the widget.
+     * @brief uses the shader.
      * @param void.
      * @return void.
      */
-    void showPixmap();
+    void use();
+
+    /**
+     * @brief returns the program.
+     * @param void.
+     * @return current shader program, placed in GLuint.
+     */
+    GLuint getProgram();
 
 private:
-    bool imgLoaded;
-    unsigned char* m_image;
-    int img_height, img_width;
-    GLuint m_texture;
-    GLuint VBO, VAO, EBO;
+    GLuint m_program;
 };
 }
 
-#endif // RPIXMAPWIDGET_H
+#endif // RSHADER_H

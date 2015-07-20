@@ -9,10 +9,11 @@ int main(int argc, char **argv)
     Realio::RWindow realio(name);
     Realio::RPixmapWidget* pixmap;
     pixmap = new Realio::RPixmapWidget(0, 0, 800, 600);
-    pixmap->loadFile("image.jpg");
+    pixmap->loadFile("image.png");
     realio.addWidget(pixmap);
     pixmap->showPixmap();
     realio.show();
+    realio.update();
     SDL_Delay(2000);
     realio.close();
     SDL_Delay(2000);

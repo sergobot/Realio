@@ -70,17 +70,23 @@ public:
 
     /**
      * @brief adds a widget to the window.
-     * @param reference to a RWidget object.
+     * @param pointer to an RWidget object.
      * @return void.
      */
     void addWidget(RWidget *wgt);
+
+    /**
+     * @brief updates the window's content.
+     * @param void.
+     * @return void.
+     */
+    void update();
 
 private:
     std::string m_title;
     SDL_Window* m_window;
     SDL_Surface* m_surface;
     SDL_GLContext m_context;
-
 
     std::vector<RWidget*> m_widgets;
     std::vector<int> m_IDs;

@@ -31,11 +31,14 @@ RWindow::RWindow(const std::string & title = "")
 
     glewExperimental = GL_TRUE;
     glewInit();
+
+    glViewport(0, 0, m_width, m_height);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 RWindow::~RWindow()
 {
-    SDL_DestroyWindow(m_window);
     SDL_GL_DeleteContext(m_context);
     SDL_Quit();
 }
@@ -120,5 +123,11 @@ void RWindow::addWidget(RWidget *wgt)
 {
     m_widgets.push_back(wgt);
     m_IDs.push_back(wgt->getID());
+}
+
+void RWindow::update()
+{
+    SDL_UpdateWindowSurface(m_window);
+    SDL_GL_SwapWindow(m_window);
 }
 }
