@@ -100,7 +100,7 @@ void RPixmapWidget::update()
     float height = float(2 * m_height) / float(m_winHeight);
 
     GLfloat vertices[] = {
-        // Positions                      // Texture Coords
+        // Positions              // Texture Coords
         xPos+width,  yPos,        0.0f,   1.0f, 1.0f, // Top Right
         xPos+width,  yPos-height, 0.0f,   1.0f, 0.0f, // Bottom Right
         xPos,        yPos-height, 0.0f,   0.0f, 0.0f, // Bottom Left
