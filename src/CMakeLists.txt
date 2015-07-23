@@ -28,6 +28,8 @@ set(Realio_libs
 
 include_directories(${SDL2_INCLUDE_DIR} ${GLM_INCLUDE_DIRS} ${ASSIMP_INCLUDE_DIR} ${GLEW_INCLUDE_DIRS})
 
+configure_file(test/image.png image.png COPYONLY)
+
 add_library (realio SHARED ${TARGET_SRC})
 target_link_libraries (realio ${Realio_libs})
 

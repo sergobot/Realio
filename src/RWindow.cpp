@@ -123,6 +123,7 @@ void RWindow::addWidget(RWidget *wgt)
 {
     m_widgets.push_back(wgt);
     m_IDs.push_back(wgt->getID());
+    wgt->setWindowSize(m_width, m_height);
 }
 
 void RWindow::update()

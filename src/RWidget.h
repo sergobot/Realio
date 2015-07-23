@@ -34,7 +34,7 @@ public:
      * @param references to two integers.
      * @return void.
      */
-    void moveTo(const int & x, const int & y);
+    void move(const int & x, const int & y);
 
     /**
      * @brief sets the x and y integers to current position.
@@ -64,12 +64,28 @@ public:
      */
     int getID();
 
-private:
+    /**
+     * @brief sets window's height and width
+     * @param window's width and height
+     * @return void
+     */
+    void setWindowSize(int w, int h);
+
+protected:
     int m_id;
-    int xPos;
-    int yPos;
-    int width;
-    int height;
+    int m_xPos; // Top left angle positions
+    int m_yPos;
+    int m_width;
+    int m_height;
+    int m_winWidth;
+    int m_winHeight;
+
+    /**
+     * @brief updates the widget's content.
+     * @param void.
+     * @return void.
+     */
+    void update();
 };
 }
 
