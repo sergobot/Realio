@@ -78,4 +78,9 @@ GLuint RShader::getProgram()
 {
     return m_program;
 }
+
+void RShader::deleteProgram()
+{
+    glDeleteProgram(m_program);
+}
 }

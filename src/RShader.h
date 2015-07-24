@@ -40,6 +40,13 @@ public:
      */
     GLuint getProgram();
 
+    /**
+     * @brief returns the program.
+     * @param void.
+     * @return current shader program, placed in GLuint.
+     */
+    void deleteProgram();
+
 private:
     GLuint m_program;
 };
