@@ -20,7 +20,7 @@
 #include "RShader.h"
 
 namespace Realio {
-RShader::RShader(const char* vShader, const char* fShader)
+RShader::RShader(const char *vShader, const char *fShader)
 {
     // Compile shaders
     GLuint vertex, fragment;

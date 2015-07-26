@@ -34,28 +34,28 @@ public:
      * @param references to two integers.
      * @return void.
      */
-    void move(const int & x, const int & y);
+    void move(const int x, const int y);
 
     /**
      * @brief sets the x and y integers to current position.
      * @param pointers to two integers.
      * @return void.
      */
-    void getPosition(int* x, int* y);
+    void getPosition(int & x, int & y);
 
     /**
      * @brief resizes the widget.
      * @param references to two integers.
      * @return void.
      */
-    void resize(const int & w, const int & h);
+    void resize(const int w, const int h);
 
     /**
      * @brief sets the w and h integers to current size.
      * @param pointers to two integers.
      * @return void.
      */
-    void getSize(int* w, int* h);
+    void getSize(int & w, int & h);
 
     /**
      * @brief returns ID of the widget.

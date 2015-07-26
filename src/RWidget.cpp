@@ -38,30 +38,30 @@ RWidget::~RWidget()
 
 }
 
-void RWidget::move(const int & x, const int & y)
+void RWidget::move(const int x, const int y)
 {
     m_xPos = x;
     m_yPos = y;
     update();
 }
 
-void RWidget::getPosition(int *x, int *y)
+void RWidget::getPosition(int & x, int & y)
 {
-    *x = m_xPos;
-    *y = m_yPos;
+    x = m_xPos;
+    y = m_yPos;
 }
 
-void RWidget::resize(const int & w, const int & h)
+void RWidget::resize(const int w, const int h)
 {
     m_width = w;
     m_height = h;
     update();
 }
 
-void RWidget::getSize(int *w, int *h)
+void RWidget::getSize(int & w, int & h)
 {
-    *w = m_width;
-    *h = m_height;
+    w = m_width;
+    h = m_height;
 }
 
 int RWidget::getID()

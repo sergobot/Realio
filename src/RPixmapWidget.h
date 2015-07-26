@@ -45,7 +45,7 @@ public:
 
 private:
     bool imgLoaded;
-    unsigned char* m_image;
+    unsigned char *m_image;
     int img_height, img_width, comp;
     GLuint m_texture;
     GLuint VBO, VAO, EBO;

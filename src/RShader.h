@@ -24,7 +24,7 @@ namespace Realio {
 class RShader
 {
 public:
-    RShader(const char* vShader, const char* fShader);
+    RShader(const char *vShader, const char *fShader);
 
     /**
      * @brief uses the shader.

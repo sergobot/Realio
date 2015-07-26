@@ -84,8 +84,8 @@ public:
 
 private:
     std::string m_title;
-    SDL_Window* m_window;
-    SDL_Surface* m_surface;
+    SDL_Window *m_window;
+    SDL_Surface *m_surface;
     SDL_GLContext m_context;
 
     std::vector<RWidget*> m_widgets;
