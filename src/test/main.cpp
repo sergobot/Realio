@@ -34,21 +34,28 @@ void keyCallback(SDL_Event e)
             if(e.key.keysym.sym == SDLK_ESCAPE)
                 window.close();
             if(e.key.keysym.sym == SDLK_UP)
-                pixmap->move(pixmap->getXPos(), pixmap->getYPos() - 10);
+                for(int i = 0; i < 20; i++)
+                    pixmap->move(pixmap->getXPos(), pixmap->getYPos() - 1);
             if(e.key.keysym.sym == SDLK_DOWN)
-                pixmap->move(pixmap->getXPos(), pixmap->getYPos() + 10);
+                for(int i = 0; i < 20; i++)
+                    pixmap->move(pixmap->getXPos(), pixmap->getYPos() + 1);
             if(e.key.keysym.sym == SDLK_LEFT)
-                pixmap->move(pixmap->getXPos() - 10, pixmap->getYPos());
+                for(int i = 0; i < 20; i++)
+                    pixmap->move(pixmap->getXPos() - 1, pixmap->getYPos());
             if(e.key.keysym.sym == SDLK_RIGHT)
-                pixmap->move(pixmap->getXPos() + 10, pixmap->getYPos());
+                for(int i = 0; i < 20; i++)
+                    pixmap->move(pixmap->getXPos() + 1, pixmap->getYPos());
             break;
         case SDL_MOUSEWHEEL:
             if(e.wheel.type == SDL_MOUSEWHEEL)
             {
-                int w = pixmap->getWidth();
-                int h = pixmap->getHeight();
-                pixmap->resize(w + w * e.wheel.y * 0.1,
-                               h + h * e.wheel.y * 0.1);
+                if(SDL_GetModState() & KMOD_CTRL)
+                {
+                    int w = pixmap->getWidth();
+                    int h = pixmap->getHeight();
+                    pixmap->resize(w + w * e.wheel.y * 0.1,
+                                   h + h * e.wheel.y * 0.1);
+                }
             }
     }
 }
