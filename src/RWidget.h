@@ -37,11 +37,18 @@ public:
     void move(const int x, const int y);
 
     /**
-     * @brief sets the x and y integers to current position.
-     * @param pointers to two integers.
-     * @return void.
+     * @brief returns widget's X position.
+     * @param void.
+     * @return widget's X position.
      */
-    void getPosition(int & x, int & y);
+    int getXPos();
+
+    /**
+     * @brief returns widget's Y position.
+     * @param void.
+     * @return widget's Y position.
+     */
+    int getYPos();
 
     /**
      * @brief resizes the widget.
@@ -51,11 +58,18 @@ public:
     void resize(const int w, const int h);
 
     /**
-     * @brief sets the w and h integers to current size.
-     * @param pointers to two integers.
-     * @return void.
+     * @brief returns widget's width.
+     * @param void.
+     * @return widget's width.
      */
-    void getSize(int & w, int & h);
+    int getWidth();
+
+    /**
+     * @brief returns widget's height.
+     * @param void.
+     * @return widget's height.
+     */
+    int getHeight();
 
     /**
      * @brief returns ID of the widget.
@@ -86,6 +100,8 @@ protected:
     int m_height;
     int m_winWidth;
     int m_winHeight;
+    bool m_moved;
+    bool m_resized;
 };
 }
 

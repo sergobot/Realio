@@ -59,6 +59,13 @@ private:
     GLuint VBO, VAO, EBO;
 
     RShader *m_shader;
+
+    /**
+     * @brief updates the widget's size and position.
+     * @param void.
+     * @return void.
+     */
+    void updateSize();
 };
 }
 

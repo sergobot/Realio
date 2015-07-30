@@ -35,6 +35,9 @@ RPixmapWidget::RPixmapWidget(
 
 RPixmapWidget::~RPixmapWidget()
 {
+    m_shader->deleteProgram();
+    delete m_shader;
+
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
@@ -78,6 +81,57 @@ void RPixmapWidget::show()
         "}"
     };
 
+    updateSize();
+
+    glGenTextures(1, &m_texture);
+    glBindTexture(GL_TEXTURE_2D, m_texture);
+
+    // Set texture parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // Set texture filtering
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    //Create texture
+    if(comp == 3)
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img_width, img_height, 0, GL_RGB, GL_UNSIGNED_BYTE, m_image);
+    else if(comp == 4)
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img_width, img_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_image);
+
+    glGenerateMipmap(GL_TEXTURE_2D);
+    stbi_image_free(m_image);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    m_shader = new RShader(vShader, fShader);
+
+    update();
+}
+
+void RPixmapWidget::update()
+{
+    if(m_moved || m_resized)
+    {
+        updateSize();
+    }
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, m_texture);
+    glUniform1i(glGetUniformLocation(m_shader->getProgram(), "tex"), 0);
+
+    // Activate shader
+    m_shader->use();
+
+    // Draw container
+    glBindVertexArray(VAO);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
+
+    m_moved, m_resized = false;
+}
+
+void RPixmapWidget::updateSize()
+{
     float xPos = -1.0f + (float(2 * m_xPos)) / float(m_winWidth);
     float yPos = 1.0f - (float(2 * m_yPos)) / float(m_winHeight);
 
@@ -85,7 +139,7 @@ void RPixmapWidget::show()
     float height = float(2 * m_height) / float(m_winHeight);
 
     GLfloat vertices[] = {
-        // Positions              // Texture Coords
+        // Positions                      // Texture Coords
         xPos+width,  yPos,        0.0f,   1.0f, 1.0f, // Top Right
         xPos+width,  yPos-height, 0.0f,   1.0f, 0.0f, // Bottom Right
         xPos,        yPos-height, 0.0f,   0.0f, 0.0f, // Bottom Left
@@ -117,42 +171,5 @@ void RPixmapWidget::show()
     glEnableVertexAttribArray(1);
 
     glBindVertexArray(0); // Unbind VAO
-
-    glGenTextures(1, &m_texture);
-    glBindTexture(GL_TEXTURE_2D, m_texture);
-
-    // Set texture parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    // Set texture filtering
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    //Create texture
-    if(comp == 3)
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img_width, img_height, 0, GL_RGB, GL_UNSIGNED_BYTE, m_image);
-    else if(comp == 4)
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img_width, img_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_image);
-
-    glGenerateMipmap(GL_TEXTURE_2D);
-    stbi_image_free(m_image);
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    m_shader = new RShader(vShader, fShader);
-}
-
-void RPixmapWidget::update()
-{
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, m_texture);
-    glUniform1i(glGetUniformLocation(m_shader->getProgram(), "tex"), 0);
-
-    // Activate shader
-    m_shader->use();
-
-    // Draw container
-    glBindVertexArray(VAO);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
 }
 }

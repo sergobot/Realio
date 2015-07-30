@@ -3,11 +3,11 @@
 #include <string>
 
 Realio::RWindow window("Test");
+Realio::RPixmapWidget *pixmap;
 
 void keyCallback(SDL_Event e);
 int main(int argc, char **argv)
 {
-    Realio::RPixmapWidget *pixmap;
     pixmap = new Realio::RPixmapWidget(100, 100, 440, 512);
     pixmap->loadFile("image.png");
     window.addWidget(pixmap);
@@ -33,6 +33,14 @@ void keyCallback(SDL_Event e)
         case SDL_KEYDOWN:
             if(e.key.keysym.sym == SDLK_ESCAPE)
                 window.close();
+            if(e.key.keysym.sym == SDLK_UP)
+                pixmap->move(pixmap->getXPos(), pixmap->getYPos() - 10);
+            if(e.key.keysym.sym == SDLK_DOWN)
+                pixmap->move(pixmap->getXPos(), pixmap->getYPos() + 10);
+            if(e.key.keysym.sym == SDLK_LEFT)
+                pixmap->move(pixmap->getXPos() - 10, pixmap->getYPos());
+            if(e.key.keysym.sym == SDLK_RIGHT)
+                pixmap->move(pixmap->getXPos() + 10, pixmap->getYPos());
             break;
     }
 }
