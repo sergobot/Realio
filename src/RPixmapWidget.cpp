@@ -38,6 +38,8 @@ RPixmapWidget::~RPixmapWidget()
     m_shader->deleteProgram();
     delete m_shader;
 
+    stbi_image_free(m_image);
+
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
@@ -95,12 +97,11 @@ void RPixmapWidget::show()
 
     //Create texture
     if(comp == 3)
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img_width, img_height, 0, GL_RGB, GL_UNSIGNED_BYTE, m_image);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, m_image);
     else if(comp == 4)
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img_width, img_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_image);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_image);
 
     glGenerateMipmap(GL_TEXTURE_2D);
-    stbi_image_free(m_image);
     glBindTexture(GL_TEXTURE_2D, 0);
 
     m_shader = new RShader(vShader, fShader);

@@ -42,5 +42,13 @@ void keyCallback(SDL_Event e)
             if(e.key.keysym.sym == SDLK_RIGHT)
                 pixmap->move(pixmap->getXPos() + 10, pixmap->getYPos());
             break;
+        case SDL_MOUSEWHEEL:
+            if(e.wheel.type == SDL_MOUSEWHEEL)
+            {
+                int w = pixmap->getWidth();
+                int h = pixmap->getHeight();
+                pixmap->resize(w + w * e.wheel.y * 0.1,
+                               h + h * e.wheel.y * 0.1);
+            }
     }
 }
