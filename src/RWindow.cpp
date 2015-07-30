@@ -35,6 +35,8 @@ RWindow::RWindow(const std::string & title = "")
     glViewport(0, 0, m_width, m_height);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+
+    quit = false;
 }
 
 RWindow::~RWindow()
@@ -101,6 +103,7 @@ void RWindow::show()
 
 void RWindow::close()
 {
+    quit = true;
     SDL_DestroyWindow(m_window);
 }
 
@@ -128,7 +131,48 @@ void RWindow::addWidget(RWidget *wgt)
 
 void RWindow::update()
 {
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    SDL_Event e;
+
+    while(SDL_PollEvent(&e))
+    {
+        //User requests quit
+        switch(e.type)
+        {
+            case SDL_QUIT:
+                quit = true;
+                break;
+            case SDL_APP_TERMINATING:
+                quit = true;
+                break;
+            default:
+                callback(e);
+        }
+
+        if(quit)
+        {
+            close();
+            return;
+        }
+    }
+
+
+    for(int i; i < m_widgets.size(); i++)
+        m_widgets[i]->update();
+
     SDL_UpdateWindowSurface(m_window);
     SDL_GL_SwapWindow(m_window);
+}
+
+bool RWindow::shouldQuit()
+{
+    return quit;
+}
+
+void RWindow::setKeyCallback(void (*func)(SDL_Event e))
+{
+    callback = func;
 }
 }

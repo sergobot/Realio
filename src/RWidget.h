@@ -71,6 +71,13 @@ public:
      */
     void setWindowSize(int w, int h);
 
+    /**
+     * @brief updates the widget's content.
+     * @param void.
+     * @return void.
+     */
+    virtual void update();
+
 protected:
     int m_id;
     int m_xPos; // Top left angle positions
@@ -79,13 +86,6 @@ protected:
     int m_height;
     int m_winWidth;
     int m_winHeight;
-
-    /**
-     * @brief updates the widget's content.
-     * @param void.
-     * @return void.
-     */
-    void update();
 };
 }
 

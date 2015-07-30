@@ -21,6 +21,7 @@
 #include <SDL2/SDL.h>
 //Realio
 #include "RWidget.h"
+#include "RShader.h"
 
 namespace Realio {
 class RPixmapWidget : public RWidget
@@ -41,7 +42,14 @@ public:
      * @param void.
      * @return void.
      */
-    void showPixmap();
+    void show();
+
+    /**
+     * @brief updates the widget's content.
+     * @param void.
+     * @return void.
+     */
+    void update();
 
 private:
     bool imgLoaded;
@@ -50,12 +58,7 @@ private:
     GLuint m_texture;
     GLuint VBO, VAO, EBO;
 
-    /**
-     * @brief updates the widget's content.
-     * @param void.
-     * @return void.
-     */
-    void update();
+    RShader *m_shader;
 };
 }
 

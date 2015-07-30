@@ -82,6 +82,20 @@ public:
      */
     void update();
 
+    /**
+     * @brief returns true if the window should quit.
+     * @param void.
+     * @return true, if the window should quit. false, if not.
+     */
+    bool shouldQuit();
+
+    /**
+     * @brief sets key callback function.
+     * @param pointer to a function.
+     * @return void.
+     */
+    void setKeyCallback(void (*func)(SDL_Event e));
+
 private:
     std::string m_title;
     SDL_Window *m_window;
@@ -91,14 +105,17 @@ private:
     std::vector<RWidget*> m_widgets;
     std::vector<int> m_IDs;
 
+    bool quit;
     // Window's width and height
     int m_width;
     int m_height;
 
+    void (*callback)(SDL_Event e);
+
     /**
      * @brief initializes SDL.
      * @param void.
-     * @return True, if SDL is initialized. False, if not.
+     * @return true, if SDL is initialized. false, if not.
      */
     bool initializeSDL();
 };

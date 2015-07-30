@@ -21,7 +21,6 @@
 #include "stb_image.h"
 //Realio
 #include "RPixmapWidget.h"
-#include "RShader.h"
 
 namespace Realio {
 RPixmapWidget::RPixmapWidget(
@@ -36,7 +35,9 @@ RPixmapWidget::RPixmapWidget(
 
 RPixmapWidget::~RPixmapWidget()
 {
-
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
 }
 
 bool RPixmapWidget::loadFile(const char *file)
@@ -55,10 +56,8 @@ bool RPixmapWidget::loadFile(const char *file)
     return imgLoaded;
 }
 
-void RPixmapWidget::showPixmap()
+void RPixmapWidget::show()
 {
-    update();
-
     const char vShader[] = {
         "#version 330 core\n"
         "layout (location = 0) in vec3 position;"
@@ -79,20 +78,6 @@ void RPixmapWidget::showPixmap()
         "}"
     };
 
-    RShader pShader(vShader, fShader);
-    pShader.use();
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, m_texture);
-    glUniform1i(glGetUniformLocation(pShader.getProgram(), "tex"), 0);
-
-    glBindVertexArray(VAO);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
-}
-
-void RPixmapWidget::update()
-{
     float xPos = -1.0f + (float(2 * m_xPos)) / float(m_winWidth);
     float yPos = 1.0f - (float(2 * m_yPos)) / float(m_winHeight);
 
@@ -152,5 +137,22 @@ void RPixmapWidget::update()
     glGenerateMipmap(GL_TEXTURE_2D);
     stbi_image_free(m_image);
     glBindTexture(GL_TEXTURE_2D, 0);
+
+    m_shader = new RShader(vShader, fShader);
+}
+
+void RPixmapWidget::update()
+{
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, m_texture);
+    glUniform1i(glGetUniformLocation(m_shader->getProgram(), "tex"), 0);
+
+    // Activate shader
+    m_shader->use();
+
+    // Draw container
+    glBindVertexArray(VAO);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
 }
 }
