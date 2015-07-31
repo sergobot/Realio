@@ -8,8 +8,8 @@ Realio::RPixmapWidget *pixmap;
 void keyCallback(SDL_Event e);
 int main(int argc, char **argv)
 {
-    pixmap = new Realio::RPixmapWidget(100, 100, 440, 512);
-    pixmap->loadFile("image.png");
+    pixmap = new Realio::RPixmapWidget();
+    pixmap->loadFile("image1.png");
     window.addWidget(pixmap);
     window.setKeyCallback(keyCallback);
     pixmap->show();
@@ -45,6 +45,12 @@ void keyCallback(SDL_Event e)
             if(e.key.keysym.sym == SDLK_RIGHT)
                 for(int i = 0; i < 20; i++)
                     pixmap->move(pixmap->getXPos() + 1, pixmap->getYPos());
+            if(e.key.keysym.sym == SDLK_SPACE)
+            {
+                pixmap->loadFile("image2.png");
+                pixmap->fitByImage();
+                pixmap->show();
+            }
             break;
         case SDL_MOUSEWHEEL:
             if(e.wheel.type == SDL_MOUSEWHEEL)

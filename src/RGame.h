@@ -29,8 +29,8 @@ public:
     ~RGame();
 
     /**
-     * @brief sets a name for the game.
-     * @param name.
+     * @brief sets name for the game.
+     * @param new name.
      * @return void.
      */
     void setName(const std::string & name);
