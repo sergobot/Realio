@@ -31,6 +31,23 @@ RPixmapWidget::RPixmapWidget(
     : RWidget(x,y,w,h)
 {
     imgLoaded = false;
+    imgOriginalSize = false;
+}
+
+RPixmapWidget::RPixmapWidget(
+        const int x = 0,
+        const int y = 0)
+    : RWidget(x,y,0,0)
+{
+    imgLoaded = false;
+    imgOriginalSize = true;
+}
+
+RPixmapWidget::RPixmapWidget()
+    : RWidget(0,0,0,0)
+{
+    imgLoaded = false;
+    imgOriginalSize = true;
 }
 
 RPixmapWidget::~RPixmapWidget()
@@ -58,11 +75,22 @@ bool RPixmapWidget::loadFile(const char *file)
     else
         imgLoaded = true;
 
+    if(imgOriginalSize)
+    {
+        m_height = img_height;
+        m_width = img_width;
+    }
+    else if(m_width == img_width && m_height == img_height)
+        imgOriginalSize = true;
+
     return imgLoaded;
 }
 
 void RPixmapWidget::show()
 {
+    if(!imgLoaded)
+        return;
+
     const char vShader[] = {
         "#version 330 core\n"
         "layout (location = 0) in vec3 position;"
@@ -111,9 +139,13 @@ void RPixmapWidget::show()
 
 void RPixmapWidget::update()
 {
+    if(!imgLoaded)
+        return;
+
     if(m_moved || m_resized)
     {
         updateSize();
+        m_moved, m_resized = false;
     }
 
     glActiveTexture(GL_TEXTURE0);
@@ -127,12 +159,18 @@ void RPixmapWidget::update()
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
-
-    m_moved, m_resized = false;
 }
 
 void RPixmapWidget::updateSize()
 {
+    if(!imgLoaded)
+        return;
+
+    if(img_height != m_height || img_width != m_width)
+        imgOriginalSize = false;
+    else
+        imgOriginalSize = true;
+
     float xPos = -1.0f + (float(2 * m_xPos)) / float(m_winWidth);
     float yPos = 1.0f - (float(2 * m_yPos)) / float(m_winHeight);
 
@@ -172,5 +210,15 @@ void RPixmapWidget::updateSize()
     glEnableVertexAttribArray(1);
 
     glBindVertexArray(0); // Unbind VAO
+}
+
+void RPixmapWidget::fitByImage()
+{
+    if(!imgLoaded)
+        return;
+
+    imgOriginalSize = true;
+    m_width = img_width;
+    m_height = img_height;
 }
 }

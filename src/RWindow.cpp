@@ -34,7 +34,7 @@ RWindow::RWindow(const std::string & title = "")
 
     glViewport(0, 0, m_width, m_height);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     // Enable blending
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -136,7 +136,7 @@ void RWindow::addWidget(RWidget *wgt)
 void RWindow::update()
 {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     SDL_Event e;
 
@@ -163,7 +163,7 @@ void RWindow::update()
     }
 
 
-    for(int i; i < m_widgets.size(); i++)
+    for(int i = 0; i < m_widgets.size(); i++)
         m_widgets[i]->update();
 
     SDL_UpdateWindowSurface(m_window);

@@ -28,6 +28,8 @@ class RPixmapWidget : public RWidget
 {
 public:
     RPixmapWidget(const int x, const int y, const int w, const int h);
+    RPixmapWidget(const int x, const int y);
+    RPixmapWidget();
     ~RPixmapWidget();
 
     /**
@@ -51,8 +53,15 @@ public:
      */
     void update();
 
+    /**
+     * @brief sets the widget's width and height to the image's ones.
+     * @param void.
+     * @return void.
+     */
+    void fitByImage();
+
 private:
-    bool imgLoaded;
+    bool imgLoaded, imgOriginalSize;
     unsigned char *m_image;
     int img_height, img_width, comp;
     GLuint m_texture;
