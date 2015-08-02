@@ -32,6 +32,8 @@ RPixmapWidget::RPixmapWidget(
 {
     imgLoaded = false;
     imgOriginalSize = false;
+
+    createShaders();
 }
 
 RPixmapWidget::RPixmapWidget(
@@ -41,6 +43,8 @@ RPixmapWidget::RPixmapWidget(
 {
     imgLoaded = false;
     imgOriginalSize = true;
+
+    createShaders();
 }
 
 RPixmapWidget::RPixmapWidget()
@@ -48,6 +52,8 @@ RPixmapWidget::RPixmapWidget()
 {
     imgLoaded = false;
     imgOriginalSize = true;
+    
+    createShaders();
 }
 
 RPixmapWidget::~RPixmapWidget()
@@ -91,26 +97,6 @@ void RPixmapWidget::show()
     if(!imgLoaded)
         return;
 
-    const char vShader[] = {
-        "#version 330 core\n"
-        "layout (location = 0) in vec3 position;"
-        "layout (location = 1) in vec2 texCoord;"
-        "out vec2 TexCoord;"
-        "void main() {"
-        "    gl_Position = vec4(position, 1.0f);"
-        "    TexCoord = vec2(texCoord.x, 1.0 - texCoord.y);"
-        "}"
-    };
-    const char fShader[] = {
-        "#version 330 core\n"
-        "in vec2 TexCoord;"
-        "out vec4 color;"
-        "uniform sampler2D tex;"
-        "void main() {"
-        "    color = texture(tex, TexCoord).rgba;"
-        "}"
-    };
-
     updateSize();
 
     glGenTextures(1, &m_texture);
@@ -131,8 +117,6 @@ void RPixmapWidget::show()
 
     glGenerateMipmap(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, 0);
-
-    m_shader = new RShader(vShader, fShader);
 
     update();
 }
@@ -220,5 +204,30 @@ void RPixmapWidget::fitByImage()
     imgOriginalSize = true;
     m_width = img_width;
     m_height = img_height;
+}
+
+void RPixmapWidget::createShaders()
+{
+    const char vShader[] = {
+        "#version 330 core\n"
+        "layout (location = 0) in vec3 position;"
+        "layout (location = 1) in vec2 texCoord;"
+        "out vec2 TexCoord;"
+        "void main() {"
+        "    gl_Position = vec4(position, 1.0f);"
+        "    TexCoord = vec2(texCoord.x, 1.0 - texCoord.y);"
+        "}"
+    };
+    const char fShader[] = {
+        "#version 330 core\n"
+        "in vec2 TexCoord;"
+        "out vec4 color;"
+        "uniform sampler2D tex;"
+        "void main() {"
+        "    color = texture(tex, TexCoord).rgba;"
+        "}"
+    };
+
+    m_shader = new RShader(vShader, fShader);
 }
 }

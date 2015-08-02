@@ -75,6 +75,13 @@ private:
      * @return void.
      */
     void updateSize();
+
+    /**
+     * @brief creates shaders. Call it only once!
+     * @param void.
+     * @return void.
+     */
+    void createShaders();
 };
 }
 
