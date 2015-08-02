@@ -31,7 +31,6 @@ RPixmapWidget::RPixmapWidget(
     : RWidget(x,y,w,h)
 {
     imgLoaded = false;
-    imgOriginalSize = false;
 
     createShaders();
 }
@@ -42,7 +41,6 @@ RPixmapWidget::RPixmapWidget(
     : RWidget(x,y,0,0)
 {
     imgLoaded = false;
-    imgOriginalSize = true;
 
     createShaders();
 }
@@ -51,7 +49,6 @@ RPixmapWidget::RPixmapWidget()
     : RWidget(0,0,0,0)
 {
     imgLoaded = false;
-    imgOriginalSize = true;
     
     createShaders();
 }
@@ -70,6 +67,7 @@ RPixmapWidget::~RPixmapWidget()
 
 bool RPixmapWidget::loadFile(const char *file)
 {
+    imgLoaded = false;
     m_image = stbi_load(file, &img_width, &img_height, &comp, STBI_rgb_alpha);
 
     if(!m_image)
@@ -81,13 +79,11 @@ bool RPixmapWidget::loadFile(const char *file)
     else
         imgLoaded = true;
 
-    if(imgOriginalSize)
+    if(!m_height && !m_width)
     {
         m_height = img_height;
         m_width = img_width;
     }
-    else if(m_width == img_width && m_height == img_height)
-        imgOriginalSize = true;
 
     return imgLoaded;
 }
@@ -150,11 +146,6 @@ void RPixmapWidget::updateSize()
     if(!imgLoaded)
         return;
 
-    if(img_height != m_height || img_width != m_width)
-        imgOriginalSize = false;
-    else
-        imgOriginalSize = true;
-
     float xPos = -1.0f + (float(2 * m_xPos)) / float(m_winWidth);
     float yPos = 1.0f - (float(2 * m_yPos)) / float(m_winHeight);
 
@@ -201,7 +192,6 @@ void RPixmapWidget::fitByImage()
     if(!imgLoaded)
         return;
 
-    imgOriginalSize = true;
     m_width = img_width;
     m_height = img_height;
 }

@@ -61,7 +61,7 @@ public:
     void fitByImage();
 
 private:
-    bool imgLoaded, imgOriginalSize;
+    bool imgLoaded;
     unsigned char *m_image;
     int img_height, img_width, comp;
     GLuint m_texture;
