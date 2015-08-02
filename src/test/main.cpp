@@ -1,23 +1,23 @@
 #include "../RWindow.h"
-#include "../RPixmapWidget.h"
+#include "../RAnimatedPixmap.h"
 #include <string>
 
 Realio::RWindow window("Test");
-Realio::RPixmapWidget *pixmap;
+Realio::RAnimatedPixmap *pixmap;
 
 void keyCallback(SDL_Event e);
 int main(int argc, char **argv)
 {
-    pixmap = new Realio::RPixmapWidget();
+    pixmap = new Realio::RAnimatedPixmap();
     pixmap->loadFile("image1.png");
+    pixmap->loadFile("image2.png");
     window.addWidget(pixmap);
     window.setKeyCallback(keyCallback);
-    pixmap->show();
     window.show();
+    pixmap->show();
 
     while(!window.shouldQuit())
     {
-        pixmap->update();
         window.update();
     }
 
@@ -47,9 +47,7 @@ void keyCallback(SDL_Event e)
                     pixmap->move(pixmap->getXPos() + 1, pixmap->getYPos());
             if(e.key.keysym.sym == SDLK_SPACE)
             {
-                pixmap->loadFile("image2.png");
-                pixmap->fitByImage();
-                pixmap->show();
+                pixmap->nextFrame();
             }
             break;
         case SDL_MOUSEWHEEL:
