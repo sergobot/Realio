@@ -30,6 +30,8 @@ RWidget::RWidget(
     m_width = w;
     m_height = h;
 
+    m_moved, m_resized = false;
+
     m_id = generateID();
 }
 
