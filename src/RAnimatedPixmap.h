@@ -76,7 +76,7 @@ private:
     std::vector<Image*> m_images;
     RShader *m_shader;
 
-    bool imgLoaded, imgOriginalSize;
+    bool imgLoaded;
     int currentFrame;
     GLuint m_texture;
     GLuint VBO, VAO, EBO;

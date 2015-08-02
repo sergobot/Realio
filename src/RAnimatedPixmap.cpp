@@ -96,6 +96,12 @@ void RAnimatedPixmap::show()
 
     Image *img = m_images[currentFrame];
 
+    if(!m_height && !m_width)
+    {
+        m_height = img->h;
+        m_width = img->w;
+    }
+
     updateSize();
 
     glGenTextures(1, &m_texture);
@@ -127,7 +133,6 @@ void RAnimatedPixmap::update()
 
     if(m_moved || m_resized)
     {
-        imgOriginalSize = false;
         updateSize();
         m_moved, m_resized = false;
     }
@@ -149,18 +154,6 @@ void RAnimatedPixmap::updateSize()
 {
     if(!imgLoaded)
         return;
-
-    Image *img = m_images[currentFrame];
-
-    if(imgOriginalSize)
-    {
-        m_height = img->h;
-        m_width = img->w;
-    }
-    else if(m_width == img->w && m_height == img->h)
-        imgOriginalSize = true;
-    else
-        imgOriginalSize = false;
 
     float xPos = -1.0f + (float(2 * m_xPos)) / float(m_winWidth);
     float yPos = 1.0f - (float(2 * m_yPos)) / float(m_winHeight);
@@ -210,7 +203,6 @@ void RAnimatedPixmap::fitByImage()
 
     Image *img = m_images[currentFrame];
 
-    imgOriginalSize = true;
     m_width = img->w;
     m_height = img->h;
 }
@@ -221,6 +213,11 @@ void RAnimatedPixmap::nextFrame()
         currentFrame = 0;
     else
         currentFrame++;
+
+    Image *img = m_images[currentFrame];
+
+    m_width = img->w;
+    m_height = img->h;
 
     show();
 }
