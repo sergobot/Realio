@@ -64,6 +64,13 @@ void RWidget::resize(const int w, const int h)
     m_resized = true;
 }
 
+void RWidget::scale(float ratio)
+{
+    m_width = m_width * ratio;
+    m_height = m_height * ratio;
+    m_resized = true;
+}
+
 int RWidget::getWidth()
 {
     return m_width;

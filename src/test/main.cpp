@@ -52,14 +52,7 @@ void keyCallback(SDL_Event e)
             break;
         case SDL_MOUSEWHEEL:
             if(e.wheel.type == SDL_MOUSEWHEEL)
-            {
                 if(SDL_GetModState() & KMOD_CTRL)
-                {
-                    int w = pixmap->getWidth();
-                    int h = pixmap->getHeight();
-                    pixmap->resize(w + w * e.wheel.y * 0.1,
-                                   h + h * e.wheel.y * 0.1);
-                }
-            }
+                    pixmap->scale(1 + 0.1 * e.wheel.y);
     }
 }

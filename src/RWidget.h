@@ -31,7 +31,7 @@ public:
 
     /**
      * @brief sets widget's position on a window to x and y.
-     * @param references to two integers.
+     * @param two integers.
      * @return void.
      */
     void move(const int x, const int y);
@@ -52,10 +52,17 @@ public:
 
     /**
      * @brief resizes the widget.
-     * @param references to two integers.
+     * @param two integers.
      * @return void.
      */
     void resize(const int w, const int h);
+
+    /**
+     * @brief scales the widget.
+     * @param scaling ratio in float.
+     * @return void.
+     */
+    void scale(float ratio);
 
     /**
      * @brief returns widget's width.
