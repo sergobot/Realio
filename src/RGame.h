@@ -25,7 +25,7 @@ namespace Realio {
 class RGame
 {
 public:
-    RGame(const std::string & name);
+    explicit RGame(const std::string & name);
     ~RGame();
 
     /**

@@ -14,12 +14,12 @@
  * Copyright (C) 2015 Sergey Popov <sergobot@vivaldi.net>
 **/
 
+//Realio
+#include "RAnimatedPixmap.h"
 //C++
 #include <iostream>
 //STB
 #include "stb_image.h"
-//Realio
-#include "RAnimatedPixmap.h"
 
 namespace Realio {
 RAnimatedPixmap::RAnimatedPixmap(
@@ -54,7 +54,7 @@ RAnimatedPixmap::RAnimatedPixmap()
 
 RAnimatedPixmap::~RAnimatedPixmap()
 {
-    for(int i = 0; i < m_images.size(); i++)
+    for(unsigned i = 0; i < m_images.size(); i++)
     {
         stbi_image_free(m_images[i]->image);
         delete m_images.at(i);
@@ -134,7 +134,7 @@ void RAnimatedPixmap::update()
     if(m_moved || m_resized)
     {
         updateSize();
-        m_moved, m_resized = false;
+        m_moved = false, m_resized = false;
     }
 
     glActiveTexture(GL_TEXTURE0);

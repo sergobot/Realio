@@ -14,13 +14,13 @@
  * Copyright (C) 2015 Sergey Popov <sergobot@vivaldi.net>
 **/
 
+//Realio
+#include "RPixmapWidget.h"
 //C++
 #include <iostream>
 //STB
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-//Realio
-#include "RPixmapWidget.h"
 
 namespace Realio {
 RPixmapWidget::RPixmapWidget(

@@ -14,6 +14,9 @@
  * Copyright (C) 2015 Sergey Popov <sergobot@vivaldi.net>
 **/
 
+#ifndef RWIDGET_GLOBAL_H
+#define RWIDGET_GLOBAL_H
+
 //ID of the last created RWidget.
 //Don't change it manually!
 int lastID = 0;
@@ -22,3 +25,5 @@ inline int generateID()
 {
     return ++lastID;
 }
+
+#endif // RWIDGET_GLOBAL_H

@@ -14,10 +14,10 @@
  * Copyright (C) 2015 Sergey Popov <sergobot@vivaldi.net>
 **/
 
-//C++
-#include <iostream>
 //Realio
 #include "RShader.h"
+//C++
+#include <iostream>
 
 namespace Realio {
 RShader::RShader(const char *vShader, const char *fShader)

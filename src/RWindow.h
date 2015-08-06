@@ -30,7 +30,7 @@ namespace Realio {
 class RWindow
 {
 public:
-    RWindow(const std::string & title);
+    explicit RWindow(const std::string & title);
     ~RWindow();
 
     /**

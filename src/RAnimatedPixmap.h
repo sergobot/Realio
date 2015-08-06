@@ -77,7 +77,7 @@ private:
     RShader *m_shader;
 
     bool imgLoaded;
-    int currentFrame;
+    unsigned currentFrame;
     GLuint m_texture;
     GLuint VBO, VAO, EBO;
 
