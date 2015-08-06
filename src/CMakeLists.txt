@@ -9,7 +9,8 @@ set (PROJECT_VERSION "${REALIO_VERSION}")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${Realio_SOURCE_DIR}/../CMakeModules)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-elide-constructors -pedantic-errors -ansi -Werror -Wextra -Winit-self")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Woverloaded-virtual -Wuninitialized -Wmissing-declarations -Winit-self -std=c++11")
 
 file(GLOB TARGET_INC ${Realio_SOURCE_DIR}/*.h)
 file(GLOB TARGET_SRC
@@ -37,6 +38,9 @@ include_directories(${SDL2_INCLUDE_DIR} ${GLM_INCLUDE_DIRS} ${ASSIMP_INCLUDE_DIR
 configure_file(test/image1.png image1.png COPYONLY)
 configure_file(test/image2.png image2.png COPYONLY)
 
+add_custom_target("krazy" krazy2all --priority all --export textedit --exclude license,copyright,i18ncheckarg
+                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+
 add_library (realio SHARED ${TARGET_SRC})
 target_link_libraries (realio ${Realio_libs})
 
@@ -44,4 +48,4 @@ add_executable (testGame test/main.cpp)
 target_link_libraries (testGame realio)
 
 install (TARGETS realio DESTINATION lib)
-install (FILES ${TARGET_INC} DESTINATION include/realio)
+install (FILES ${TARGET_INC} DESTINATION include/Realio)
