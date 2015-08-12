@@ -17,8 +17,9 @@ file(GLOB TARGET_SRC
   ${Realio_SOURCE_DIR}/*.cpp
   ${Realio_SOURCE_DIR}/*.c
 )
+file(GLOB STB_INC ${Realio_SOURCE_DIR}/stb/*.h})
 
-set(TARGET_SRC ${TARGET_SRC} ${TARGET_INC})
+set(TARGET_SRC ${TARGET_SRC} ${TARGET_INC} ${STB_INC})
 
 find_package(GLM REQUIRED)
 find_package(OpenGL REQUIRED)
@@ -39,7 +40,7 @@ configure_file(test/image1.png image1.png COPYONLY)
 configure_file(test/image2.png image2.png COPYONLY)
 
 add_custom_target("krazy" krazy2all --priority all --export textedit --exclude i18ncheckarg
-                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+                    WORKING_DIRECTORY ${Realio_SOURCE_DIR})
 
 add_library (realio SHARED ${TARGET_SRC})
 target_link_libraries (realio ${Realio_libs})
