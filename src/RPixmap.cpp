@@ -15,7 +15,7 @@
 **/
 
 //Realio
-#include "RPixmapWidget.h"
+#include "RPixmap.h"
 //C++
 #include <iostream>
 //STB
@@ -23,7 +23,7 @@
 #include "stb_image.h"
 
 namespace Realio {
-RPixmapWidget::RPixmapWidget(
+RPixmap::RPixmap(
         const int x = 0,
         const int y = 0,
         const int w = 0,
@@ -35,7 +35,7 @@ RPixmapWidget::RPixmapWidget(
     createShaders();
 }
 
-RPixmapWidget::RPixmapWidget(
+RPixmap::RPixmap(
         const int x = 0,
         const int y = 0)
     : RWidget(x,y,0,0)
@@ -45,7 +45,7 @@ RPixmapWidget::RPixmapWidget(
     createShaders();
 }
 
-RPixmapWidget::RPixmapWidget()
+RPixmap::RPixmap()
     : RWidget(0,0,0,0)
 {
     imgLoaded = false;
@@ -53,7 +53,7 @@ RPixmapWidget::RPixmapWidget()
     createShaders();
 }
 
-RPixmapWidget::~RPixmapWidget()
+RPixmap::~RPixmap()
 {
     m_shader->deleteProgram();
     delete m_shader;
@@ -65,14 +65,14 @@ RPixmapWidget::~RPixmapWidget()
     glDeleteBuffers(1, &EBO);
 }
 
-bool RPixmapWidget::loadFile(const char *file)
+bool RPixmap::loadFile(const char *file)
 {
     imgLoaded = false;
     m_image = stbi_load(file, &img_width, &img_height, &comp, STBI_rgb_alpha);
 
     if(!m_image)
     {
-        std::cerr << "Could not load image '" << file << "' to RPixmapWidget: ";
+        std::cerr << "Could not load image '" << file << "' to RPixmap: ";
         std::cerr << stbi_failure_reason() << std::endl;
         return imgLoaded;
     }
@@ -88,7 +88,7 @@ bool RPixmapWidget::loadFile(const char *file)
     return imgLoaded;
 }
 
-void RPixmapWidget::show()
+void RPixmap::show()
 {
     if(!imgLoaded)
         return;
@@ -117,7 +117,7 @@ void RPixmapWidget::show()
     update();
 }
 
-void RPixmapWidget::update()
+void RPixmap::update()
 {
     if(!imgLoaded)
         return;
@@ -141,7 +141,7 @@ void RPixmapWidget::update()
     glBindVertexArray(0);
 }
 
-void RPixmapWidget::updateSize()
+void RPixmap::updateSize()
 {
     if(!imgLoaded)
         return;
@@ -187,7 +187,7 @@ void RPixmapWidget::updateSize()
     glBindVertexArray(0); // Unbind VAO
 }
 
-void RPixmapWidget::fitByImage()
+void RPixmap::fitByImage()
 {
     if(!imgLoaded)
         return;
@@ -196,7 +196,7 @@ void RPixmapWidget::fitByImage()
     m_height = img_height;
 }
 
-void RPixmapWidget::createShaders()
+void RPixmap::createShaders()
 {
     const char vShader[] = {
         "#version 330 core\n"

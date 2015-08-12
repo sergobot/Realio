@@ -14,8 +14,8 @@
  * Copyright (C) 2015 Sergey Popov <sergobot@vivaldi.net>
 **/
 
-#ifndef RPIXMAPWIDGET_H
-#define RPIXMAPWIDGET_H
+#ifndef RPIXMAP_H
+#define RPIXMAP_H
 
 //SDL2
 #include <SDL2/SDL.h>
@@ -24,13 +24,13 @@
 #include "RShader.h"
 
 namespace Realio {
-class RPixmapWidget : public RWidget
+class RPixmap : public RWidget
 {
 public:
-    RPixmapWidget(const int x, const int y, const int w, const int h);
-    RPixmapWidget(const int x, const int y);
-    RPixmapWidget();
-    ~RPixmapWidget();
+    RPixmap(const int x, const int y, const int w, const int h);
+    RPixmap(const int x, const int y);
+    RPixmap();
+    ~RPixmap();
 
     /**
      * @brief loads the image into the widget.
@@ -85,4 +85,4 @@ private:
 };
 }
 
-#endif // RPIXMAPWIDGET_H
+#endif // RPIXMAP_H

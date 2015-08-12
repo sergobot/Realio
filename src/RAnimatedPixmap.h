@@ -20,7 +20,8 @@
 //C++
 #include <vector>
 //Realio
-#include "RPixmapWidget.h"
+#include "RWidget.h"
+#include "RShader.h"
 
 namespace Realio {
 class RAnimatedPixmap : public RWidget
