@@ -163,7 +163,7 @@ void RWindow::update()
     }
 
 
-    for(unsigned i = 0; i < m_widgets.size(); i++)
+    for(unsigned i = 0; i < m_widgets.size(); ++i)
         m_widgets[i]->update();
 
     SDL_UpdateWindowSurface(m_window);

@@ -51,7 +51,7 @@ public:
      * @param void.
      * @return void.
      */
-    void update();
+    virtual void update();
 
     /**
      * @brief sets the widget's width and height to the image's ones.

@@ -80,7 +80,7 @@ public:
      * @param void.
      * @return void.
      */
-    void update();
+    virtual void update();
 
     /**
      * @brief returns true if the window should quit.

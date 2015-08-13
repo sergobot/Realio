@@ -86,7 +86,7 @@ int RWidget::getID()
     return m_id;
 }
 
-void RWidget::update()
+/*virtual*/ void RWidget::update()
 {
 
 }

@@ -54,7 +54,7 @@ RAnimatedPixmap::RAnimatedPixmap()
 
 RAnimatedPixmap::~RAnimatedPixmap()
 {
-    for(unsigned i = 0; i < m_images.size(); i++)
+    for(unsigned i = 0; i < m_images.size(); ++i)
     {
         stbi_image_free(m_images[i]->image);
         delete m_images.at(i);
@@ -126,7 +126,7 @@ void RAnimatedPixmap::show()
     update();
 }
 
-void RAnimatedPixmap::update()
+/*virtual*/ void RAnimatedPixmap::update()
 {
     if(!imgLoaded)
         return;

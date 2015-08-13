@@ -117,7 +117,7 @@ void RPixmap::show()
     update();
 }
 
-void RPixmap::update()
+/*virtual*/ void RPixmap::update()
 {
     if(!imgLoaded)
         return;
