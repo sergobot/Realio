@@ -93,6 +93,13 @@ public:
     void setWindowSize(int w, int h);
 
     /**
+     * @brief shows up the widget.
+     * @param void.
+     * @return void.
+     */
+    virtual void show();
+
+    /**
      * @brief updates the widget's content.
      * @param void.
      * @return void.

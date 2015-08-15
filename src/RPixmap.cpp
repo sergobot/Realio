@@ -88,7 +88,7 @@ bool RPixmap::loadFile(const char *file)
     return imgLoaded;
 }
 
-void RPixmap::show()
+/*virtual*/ void RPixmap::show()
 {
     if(!imgLoaded)
         return;

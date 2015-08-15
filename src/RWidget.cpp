@@ -91,6 +91,11 @@ int RWidget::getID()
 
 }
 
+/*virtual*/ void RWidget::show()
+{
+
+}
+
 void RWidget::setWindowSize(int w, int h)
 {
     m_winWidth = w;

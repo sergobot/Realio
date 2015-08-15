@@ -51,7 +51,7 @@ public:
      * @param void.
      * @return void.
      */
-    void show();
+    virtual void show();
 
     /**
      * @brief updates the widget's content.

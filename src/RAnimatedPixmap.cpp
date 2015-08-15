@@ -89,7 +89,7 @@ bool RAnimatedPixmap::loadFile(const char *file)
     return imgLoaded;
 }
 
-void RAnimatedPixmap::show()
+/*virtual*/ void RAnimatedPixmap::show()
 {
     if(!imgLoaded)
         return;
