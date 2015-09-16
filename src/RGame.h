@@ -17,6 +17,8 @@
 #ifndef RGAME_H
 #define RGAME_H
 
+//Realio
+#include "RWindow.h"
 //C++
 #include <iostream>
 #include <string>
@@ -42,8 +44,16 @@ public:
      */
     std::string getName();
 
+    /**
+     * @brief returns pointer to window of the game.
+     * @param void.
+     * @return main window.
+     */
+    RWindow* getWindow();
+
 private:
     std::string *m_name;
+    RWindow *m_window;
 };
 }
 

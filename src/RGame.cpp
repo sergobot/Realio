@@ -38,4 +38,9 @@ std::string RGame::getName()
 {
     return *m_name;
 }
+
+RWindow* RGame::getWindow()
+{
+    return m_window;
+}
 }
