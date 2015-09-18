@@ -17,13 +17,11 @@
 #ifndef RWIDGET_H
 #define RWIDGET_H
 
-//SDL2
-#include <SDL2/SDL.h>
-//GLEW
-#include <GL/glew.h>
+//Realio
+#include "R3DObject.h"
 
 namespace Realio {
-class RWidget
+class RWidget : protected R3DObject
 {
 public:
     RWidget(const int x, const int y, const int w, const int h);

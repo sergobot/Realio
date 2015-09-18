@@ -16,7 +16,8 @@
 
 #ifndef R3DOBJECT_H
 #define R3DOBJECT_H
-
+//Realio
+#include "RShader.h"
 //SDL2
 #include <SDL2/SDL.h>
 //GLEW

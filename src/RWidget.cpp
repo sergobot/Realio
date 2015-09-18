@@ -42,6 +42,11 @@ RWidget::~RWidget()
 
 void RWidget::move(const int x, const int y)
 {
+    float xTrans = float(2 * (x - m_xPos)) / float(m_winWidth);
+    float yTrans = float(2 * (y - m_yPos)) / float(m_winHeight);
+
+    translate(glm::vec3(xTrans, yTrans, 0));
+
     m_xPos = x;
     m_yPos = y;
     m_moved = true;
@@ -66,9 +71,7 @@ void RWidget::resize(const int w, const int h)
 
 void RWidget::scale(float ratio)
 {
-    m_width = m_width * ratio;
-    m_height = m_height * ratio;
-    m_resized = true;
+    R3DObject::scale(ratio);
 }
 
 int RWidget::getWidth()

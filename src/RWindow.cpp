@@ -102,12 +102,14 @@ bool RWindow::initializeSDL()
 
 void RWindow::show()
 {
+    m_shown = true;
     SDL_ShowWindow(m_window);
 }
 
 void RWindow::close()
 {
     quit = true;
+    m_shown = false;
     SDL_DestroyWindow(m_window);
 }
 
@@ -119,6 +121,7 @@ void RWindow::hide()
 void RWindow::setTitle(const std::string & title = "")
 {
     m_title = title;
+    SDL_SetWindowTitle(m_window, m_title.c_str());
 }
 
 std::string RWindow::getTitle()

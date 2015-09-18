@@ -55,6 +55,20 @@ public:
     void hide();
 
     /**
+     * @brief returns window's width.
+     * @param void.
+     * @return widget's width.
+     */
+    int getWidth();
+
+    /**
+     * @brief returns window's height.
+     * @param void.
+     * @return widget's height.
+     */
+    int getHeight();
+
+    /**
      * @brief sets the window's title to a new one.
      * @param reference to a user's std::string.
      * @return void.
@@ -105,7 +119,7 @@ private:
     std::vector<RWidget*> m_widgets;
     std::vector<int> m_IDs;
 
-    bool quit;
+    bool quit, m_shown;
     // Window's width and height
     int m_width;
     int m_height;
