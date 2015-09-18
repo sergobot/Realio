@@ -20,7 +20,22 @@
 #include <iostream>
 
 namespace Realio {
+RShader::RShader()
+{
+
+}
+
 RShader::RShader(const char *vShader, const char *fShader)
+{
+    compileShaders(vShader, fShader);
+}
+
+void RShader::use()
+{
+    glUseProgram(m_program);
+}
+
+void RShader::compileShaders(const char *vShader, const char *fShader)
 {
     // Compile shaders
     GLuint vertex, fragment;
@@ -67,11 +82,6 @@ RShader::RShader(const char *vShader, const char *fShader)
     // Delete the shaders as they're linked into our program now and no longer necessary
     glDeleteShader(vertex);
     glDeleteShader(fragment);
-}
-
-void RShader::use()
-{
-    glUseProgram(m_program);
 }
 
 GLuint RShader::getProgram()

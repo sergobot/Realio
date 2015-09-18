@@ -25,6 +25,7 @@ class RShader
 {
 public:
     RShader(const char *vShader, const char *fShader);
+    RShader();
 
     /**
      * @brief uses the shader.
@@ -32,6 +33,13 @@ public:
      * @return void.
      */
     void use();
+
+    /**
+     * @brief compiles shader program form sources.
+     * @param vertex and fragment shaders' sources.
+     * @return void.
+     */
+    void compileShaders(const char *vShader, const char *fShader);
 
     /**
      * @brief returns the program.
