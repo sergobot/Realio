@@ -17,11 +17,8 @@
 #ifndef RPIXMAP_H
 #define RPIXMAP_H
 
-//SDL2
-#include <SDL2/SDL.h>
 //Realio
 #include "RWidget.h"
-#include "RShader.h"
 
 namespace Realio {
 class RPixmap : public RWidget
@@ -60,21 +57,20 @@ public:
      */
     void fitByImage();
 
-private:
+protected:
     bool imgLoaded;
-    unsigned char *m_image;
-    int img_height, img_width, comp;
+
     GLuint m_texture;
     GLuint VBO, VAO, EBO;
 
     RShader *m_shader;
 
     /**
-     * @brief updates the widget's size and position.
+     * @brief initializes the widget's size and position.
      * @param void.
      * @return void.
      */
-    void updateSize();
+    void initializeVertices();
 
     /**
      * @brief creates shaders. Call it only once!
@@ -82,6 +78,10 @@ private:
      * @return void.
      */
     void createShaders();
+
+private:
+    unsigned char *m_image;
+    int img_height, img_width, comp;
 };
 }
 

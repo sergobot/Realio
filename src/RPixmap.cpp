@@ -49,7 +49,7 @@ RPixmap::RPixmap()
     : RWidget(0,0,0,0)
 {
     imgLoaded = false;
-    
+
     createShaders();
 }
 
@@ -57,8 +57,8 @@ RPixmap::~RPixmap()
 {
     m_shader->deleteProgram();
     delete m_shader;
-
-    stbi_image_free(m_image);
+    if(imgLoaded)
+        stbi_image_free(m_image);
 
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
@@ -93,7 +93,7 @@ bool RPixmap::loadFile(const char *file)
     if(!imgLoaded)
         return;
 
-    updateSize();
+    initializeVertices();
 
     glGenTextures(1, &m_texture);
     glBindTexture(GL_TEXTURE_2D, m_texture);
@@ -122,12 +122,6 @@ bool RPixmap::loadFile(const char *file)
     if(!imgLoaded)
         return;
 
-    if(m_moved || m_resized)
-    {
-        updateSize();
-        m_moved, m_resized = false;
-    }
-
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_texture);
     glUniform1i(glGetUniformLocation(m_shader->getProgram(), "tex"), 0);
@@ -141,7 +135,7 @@ bool RPixmap::loadFile(const char *file)
     glBindVertexArray(0);
 }
 
-void RPixmap::updateSize()
+void RPixmap::initializeVertices()
 {
     if(!imgLoaded)
         return;
@@ -149,15 +143,17 @@ void RPixmap::updateSize()
     float xPos = -1.0f + (float(2 * m_xPos)) / float(m_winWidth);
     float yPos = 1.0f - (float(2 * m_yPos)) / float(m_winHeight);
 
+    translate(glm::vec3(xPos, yPos, 0));
+
     float width = float(2 * m_width) / float(m_winWidth);
     float height = float(2 * m_height) / float(m_winHeight);
 
     GLfloat vertices[] = {
         // Positions                      // Texture Coords
-        xPos+width,  yPos,        0.0f,   1.0f, 1.0f, // Top Right
-        xPos+width,  yPos-height, 0.0f,   1.0f, 0.0f, // Bottom Right
-        xPos,        yPos-height, 0.0f,   0.0f, 0.0f, // Bottom Left
-        xPos,        yPos,        0.0f,   0.0f, 1.0f  // Top Left
+        -1.0f+width,  1.0f,        0.0f,   1.0f, 1.0f, // Top Right
+        -1.0f+width,  1.0f-height, 0.0f,   1.0f, 0.0f, // Bottom Right
+        -1.0f,        1.0f-height, 0.0f,   0.0f, 0.0f, // Bottom Left
+        -1.0f,        1.0f,        0.0f,   0.0f, 1.0f  // Top Left
     };
 
     GLuint indices[] = {

@@ -17,14 +17,13 @@
 #ifndef RANIMATEDPIXMAP_H
 #define RANIMATEDPIXMAP_H
 
+//Realio
+#include "RPixmap.h"
 //C++
 #include <vector>
-//Realio
-#include "RWidget.h"
-#include "RShader.h"
 
 namespace Realio {
-class RAnimatedPixmap : public RWidget
+class RAnimatedPixmap : public RPixmap
 {
 public:
     RAnimatedPixmap(const int x, const int y, const int w, const int h);
@@ -54,13 +53,6 @@ public:
     virtual void show();
 
     /**
-     * @brief updates the widget's content.
-     * @param void.
-     * @return void.
-     */
-    virtual void update();
-
-    /**
      * @brief sets the widget's width and height to the image's ones.
      * @param void.
      * @return void.
@@ -75,26 +67,8 @@ private:
         int index;
     };
     std::vector<Image*> m_images;
-    RShader *m_shader;
 
-    bool imgLoaded;
     unsigned currentFrame;
-    GLuint m_texture;
-    GLuint VBO, VAO, EBO;
-
-    /**
-     * @brief updates the widget's size and position.
-     * @param void.
-     * @return void.
-     */
-    void updateSize();
-
-    /**
-     * @brief creates shaders. Call it only once!
-     * @param void.
-     * @return void.
-     */
-    void createShaders();
 };
 }
 

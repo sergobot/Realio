@@ -27,7 +27,7 @@ RAnimatedPixmap::RAnimatedPixmap(
         const int y = 0,
         const int w = 0,
         const int h = 0)
-    : RWidget(x,y,w,h)
+    : RPixmap(x,y,w,h)
 {
     currentFrame = 0;
 
@@ -37,7 +37,7 @@ RAnimatedPixmap::RAnimatedPixmap(
 RAnimatedPixmap::RAnimatedPixmap(
         const int x = 0,
         const int y = 0)
-    : RWidget(x,y,0,0)
+    : RPixmap(x,y)
 {
     currentFrame = 0;
 
@@ -45,7 +45,7 @@ RAnimatedPixmap::RAnimatedPixmap(
 }
 
 RAnimatedPixmap::RAnimatedPixmap()
-    : RWidget(0,0,0,0)
+    : RPixmap()
 {
     currentFrame = 0;
 
@@ -60,12 +60,7 @@ RAnimatedPixmap::~RAnimatedPixmap()
         delete m_images.at(i);
     }
 
-    m_shader->deleteProgram();
-    delete m_shader;
-
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-    glDeleteBuffers(1, &EBO);
+    imgLoaded = false;
 }
 
 bool RAnimatedPixmap::loadFile(const char *file)
@@ -102,7 +97,7 @@ bool RAnimatedPixmap::loadFile(const char *file)
         m_width = img->w;
     }
 
-    updateSize();
+    initializeVertices();
 
     glGenTextures(1, &m_texture);
     glBindTexture(GL_TEXTURE_2D, m_texture);
@@ -124,76 +119,6 @@ bool RAnimatedPixmap::loadFile(const char *file)
     glBindTexture(GL_TEXTURE_2D, 0);
 
     update();
-}
-
-/*virtual*/ void RAnimatedPixmap::update()
-{
-    if(!imgLoaded)
-        return;
-
-    if(m_moved || m_resized)
-    {
-        updateSize();
-        m_moved = false, m_resized = false;
-    }
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, m_texture);
-    glUniform1i(glGetUniformLocation(m_shader->getProgram(), "tex"), 0);
-
-    // Activate shader
-    m_shader->use();
-
-    // Draw container
-    glBindVertexArray(VAO);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
-}
-
-void RAnimatedPixmap::updateSize()
-{
-    if(!imgLoaded)
-        return;
-
-    float xPos = -1.0f + (float(2 * m_xPos)) / float(m_winWidth);
-    float yPos = 1.0f - (float(2 * m_yPos)) / float(m_winHeight);
-
-    float width = float(2 * m_width) / float(m_winWidth);
-    float height = float(2 * m_height) / float(m_winHeight);
-
-    GLfloat vertices[] = {
-        // Positions                      // Texture Coords
-        xPos+width,  yPos,        0.0f,   1.0f, 1.0f, // Top Right
-        xPos+width,  yPos-height, 0.0f,   1.0f, 0.0f, // Bottom Right
-        xPos,        yPos-height, 0.0f,   0.0f, 0.0f, // Bottom Left
-        xPos,        yPos,        0.0f,   0.0f, 1.0f  // Top Left
-    };
-
-    GLuint indices[] = {
-        0, 1, 3,
-        1, 2, 3
-    };
-
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
-
-    glBindVertexArray(VAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-    // Position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)0);
-    glEnableVertexAttribArray(0);
-    // Texture attribute
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-    glEnableVertexAttribArray(1);
-
-    glBindVertexArray(0); // Unbind VAO
 }
 
 void RAnimatedPixmap::fitByImage()
@@ -220,30 +145,5 @@ void RAnimatedPixmap::nextFrame()
     m_height = img->h;
 
     show();
-}
-
-void RAnimatedPixmap::createShaders()
-{
-    const char vShader[] = {
-        "#version 330 core\n"
-        "layout (location = 0) in vec3 position;"
-        "layout (location = 1) in vec2 texCoord;"
-        "out vec2 TexCoord;"
-        "void main() {"
-        "    gl_Position = vec4(position, 1.0f);"
-        "    TexCoord = vec2(texCoord.x, 1.0 - texCoord.y);"
-        "}"
-    };
-    const char fShader[] = {
-        "#version 330 core\n"
-        "in vec2 TexCoord;"
-        "out vec4 color;"
-        "uniform sampler2D tex;"
-        "void main() {"
-        "    color = texture(tex, TexCoord).rgba;"
-        "}"
-    };
-
-    m_shader = new RShader(vShader, fShader);
 }
 }
