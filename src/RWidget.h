@@ -105,7 +105,7 @@ public:
     virtual void update();
 
 protected:
-    int m_id;
+    unsigned m_id;
     int m_xPos; // Top left angle positions
     int m_yPos;
     int m_width;

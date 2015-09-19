@@ -19,9 +19,9 @@
 
 //ID of the last created RWidget.
 //Don't change it manually!
-int lastID = 0;
+unsigned lastID = 0;
 
-inline int generateID()
+inline unsigned generateID()
 {
     return ++lastID;
 }
