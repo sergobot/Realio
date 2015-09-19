@@ -72,6 +72,7 @@ bool RAnimatedPixmap::loadFile(const char *file)
     {
         std::cerr << "Could not load image '" << file << "' to RAnimatedPixmap: ";
         std::cerr << stbi_failure_reason() << std::endl;
+        delete img;
         return imgLoaded;
     }
     else
