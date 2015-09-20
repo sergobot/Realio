@@ -17,14 +17,14 @@
 #ifndef RWINDOW_H
 #define RWINDOW_H
 
+//Realio
+#include "RPixmap.h"
 //C++
 #include <iostream>
 #include <string>
 #include <vector>
 //SDL2
 #include <SDL2/SDL.h>
-//Realio
-#include "RWidget.h"
 
 namespace Realio {
 class RWindow
@@ -76,6 +76,20 @@ public:
     void setTitle(const std::string & title);
 
     /**
+     * @brief loads image to use it as cursor later.
+     * @param path to a cursor image and type of the setting cursor.
+     * @return void.
+     */
+    void setCursor(const char* filename, const Uint32 type);
+
+    /**
+     * @brief sets cursor to an image.
+     * @param type of the cursor.
+     * @return void.
+     */
+    void setCurrentCursor(const Uint32 type);
+
+    /**
      * @brief returns the window's title.
      * @param void.
      * @return current title, placed in std::string.
@@ -88,6 +102,13 @@ public:
      * @return void.
      */
     void addWidget(RWidget *wgt);
+
+    /**
+     * @brief deletes widget with the ID.
+     * @param widget's ID.
+     * @return void.
+     */
+    void deleteWidget(unsigned ID);
 
     /**
      * @brief updates the window's content.
@@ -116,13 +137,16 @@ private:
     SDL_Surface *m_surface;
     SDL_GLContext m_context;
 
+    SDL_Cursor *m_systemCursors[5];
+    RPixmap *m_customCursors[4];
+    Uint32 m_cursorType;
+
     std::vector<RWidget*> m_widgets;
-    std::vector<int> m_IDs;
+    std::vector<unsigned> m_IDs;
 
     bool quit, m_shown;
     // Window's width and height
-    int m_width;
-    int m_height;
+    int m_width, m_height;
 
     void (*callback)(SDL_Event e);
 
@@ -132,7 +156,24 @@ private:
      * @return true, if SDL is initialized. false, if not.
      */
     bool initializeSDL();
+
+    /**
+     * @brief renders the cursor.
+     * @param void.
+     * @return void.
+     */
+    void drawCursor();
 };
+
+//Cursor types
+typedef enum
+{
+    CURSOR_ARROW        = 0x00000001,         //Arrow cursor
+    CURSOR_IBEAM        = 0x00000002,         //I-beam cursor
+    CURSOR_WAIT         = 0x00000004,         //Wait cursor
+    CURSOR_NO           = 0x00000008,         //No cursor
+    CURSOR_HAND         = 0x00000010,         //Hand cursor
+} RWindowCursorType;
 }
 
 #endif // RWINDOW_H

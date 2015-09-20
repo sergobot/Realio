@@ -32,6 +32,8 @@ int main(int argc, char **argv)
     window.show();
     pixmap->show();
 
+    window.setCurrentCursor(Realio::CURSOR_HAND);
+
     while(!window.shouldQuit())
     {
         window.update();
