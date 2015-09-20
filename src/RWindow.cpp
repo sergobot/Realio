@@ -22,6 +22,9 @@
 namespace Realio {
 RWindow::RWindow(const std::string & title = "")
 {
+    m_window = nullptr;
+    m_surface = nullptr;
+
     m_title = title;
 
     if(!initializeSDL())
@@ -48,6 +51,10 @@ RWindow::RWindow(const std::string & title = "")
 
 RWindow::~RWindow()
 {
+    for(unsigned i = 0; i < 4; ++i)
+        if(m_customCursors[i] != nullptr)
+            delete m_customCursors[i];
+
     SDL_GL_DeleteContext(m_context);
     SDL_Quit();
 }
@@ -106,7 +113,9 @@ bool RWindow::initializeSDL()
     m_systemCursors[2] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_WAIT);
     m_systemCursors[3] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_NO);
     m_systemCursors[4] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_HAND);
-    m_systemCursors[5] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_HAND);
+
+    for(unsigned i = 0; i < 4; ++i)
+        m_customCursors[i] = nullptr;
 
     return true;
 }
@@ -147,24 +156,28 @@ void RWindow::setCursor(const char *filename, const Uint32 type)
         if(m_customCursors[0] == nullptr)
             m_customCursors[0] = new RPixmap;
         m_customCursors[0]->loadFile(filename);
+        m_customCursors[0]->setWindowSize(m_width, m_height);
     }
     if ((type & CURSOR_IBEAM) == CURSOR_IBEAM)
     {
         if(m_customCursors[1] == nullptr)
             m_customCursors[1] = new RPixmap;
         m_customCursors[1]->loadFile(filename);
+        m_customCursors[1]->setWindowSize(m_width, m_height);
     }
     if ((type & CURSOR_WAIT) == CURSOR_WAIT)
     {
         if(m_customCursors[2] == nullptr)
             m_customCursors[2] = new RPixmap;
         m_customCursors[2]->loadFile(filename);
+        m_customCursors[2]->setWindowSize(m_width, m_height);
     }
     if ((type & CURSOR_HAND) == CURSOR_HAND)
     {
         if(m_customCursors[3] == nullptr)
             m_customCursors[3] = new RPixmap;
         m_customCursors[3]->loadFile(filename);
+        m_customCursors[3]->setWindowSize(m_width, m_height);
     }
 }
 
@@ -286,7 +299,7 @@ void RWindow::deleteWidget(const unsigned ID)
                 if ((m_cursorType & CURSOR_HAND) == CURSOR_HAND)
                     if(m_customCursors[3])
                         m_customCursors[3]->move(e.motion.x, e.motion.y);
-                        
+
             default:
                 callback(e);
         }
@@ -297,7 +310,6 @@ void RWindow::deleteWidget(const unsigned ID)
             return;
         }
     }
-
 
     for(unsigned i = 0; i < m_widgets.size(); ++i)
         m_widgets[i]->update();

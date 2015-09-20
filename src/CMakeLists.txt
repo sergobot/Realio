@@ -38,6 +38,7 @@ include_directories(${SDL2_INCLUDE_DIR} ${GLM_INCLUDE_DIRS} ${ASSIMP_INCLUDE_DIR
 
 configure_file(test/image1.png image1.png COPYONLY)
 configure_file(test/image2.png image2.png COPYONLY)
+configure_file(test/cursor.png cursor.png COPYONLY)
 
 add_custom_target("krazy" krazy2all --priority all --export textedit --exclude i18ncheckarg
                     WORKING_DIRECTORY ${Realio_SOURCE_DIR})

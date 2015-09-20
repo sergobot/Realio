@@ -32,7 +32,8 @@ int main(int argc, char **argv)
     window.show();
     pixmap->show();
 
-    window.setCurrentCursor(Realio::CURSOR_HAND);
+    window.setCursor("cursor.png", Realio::CURSOR_ARROW);
+    window.setCurrentCursor(Realio::CURSOR_ARROW);
 
     while(!window.shouldQuit())
     {
