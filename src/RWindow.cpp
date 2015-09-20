@@ -87,7 +87,7 @@ bool RWindow::initializeSDL()
                 SDL_WINDOWPOS_UNDEFINED,
                 m_width, m_height,
                 SDL_WINDOW_OPENGL |
-                //SDL_WINDOW_FULLSCREEN_DESKTOP |
+                SDL_WINDOW_FULLSCREEN_DESKTOP |
                 SDL_WINDOW_HIDDEN);
 
     if(m_window == nullptr)
@@ -271,7 +271,22 @@ void RWindow::deleteWidget(const unsigned ID)
                 quit = true;
                 break;
             case SDL_MOUSEMOTION:
+                if ((m_cursorType & CURSOR_ARROW) == CURSOR_ARROW)
+                    if(m_customCursors[0])
+                        m_customCursors[0]->move(e.motion.x, e.motion.y);
 
+                if ((m_cursorType & CURSOR_IBEAM) == CURSOR_IBEAM)
+                    if(m_customCursors[1])
+                        m_customCursors[1]->move(e.motion.x, e.motion.y);
+
+                if ((m_cursorType & CURSOR_WAIT) == CURSOR_WAIT)
+                    if(m_customCursors[2])
+                        m_customCursors[2]->move(e.motion.x, e.motion.y);
+
+                if ((m_cursorType & CURSOR_HAND) == CURSOR_HAND)
+                    if(m_customCursors[3])
+                        m_customCursors[3]->move(e.motion.x, e.motion.y);
+                        
             default:
                 callback(e);
         }
