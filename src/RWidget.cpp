@@ -43,7 +43,7 @@ RWidget::~RWidget()
 void RWidget::move(const int x, const int y)
 {
     float xTrans = float(2 * (x - m_xPos)) / float(m_winWidth);
-    float yTrans = float(2 * (y - m_yPos)) / float(m_winHeight);
+    float yTrans = float(2 * (m_yPos - y)) / float(m_winHeight);
 
     translate(glm::vec3(xTrans, yTrans, 0));
 
@@ -103,5 +103,11 @@ void RWidget::setWindowSize(int w, int h)
 {
     m_winWidth = w;
     m_winHeight = h;
+
+    int x = m_xPos;
+    int y = m_yPos;
+    m_xPos, m_yPos = 0;
+
+    move(x, y);
 }
 }

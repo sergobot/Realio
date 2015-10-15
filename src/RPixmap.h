@@ -63,21 +63,12 @@ protected:
     GLuint m_texture;
     GLuint VBO, VAO, EBO;
 
-    RShader *m_shader;
-
     /**
      * @brief initializes the widget's size and position.
      * @param void.
      * @return void.
      */
     void initializeVertices();
-
-    /**
-     * @brief creates shaders. Call it only once!
-     * @param void.
-     * @return void.
-     */
-    void createShaders();
 
 private:
     unsigned char *m_image;

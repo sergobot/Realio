@@ -42,7 +42,7 @@ public:
     void translate(glm::vec3 vec);
 
     /**
-     * @brief rotetes the object.
+     * @brief rotates the object.
      * @param rotate angle in float.
      * @return void.
      */
@@ -63,6 +63,12 @@ public:
     void scale(float ratio);
 
     /**
+     * @brief draws the object to scene.
+     * @param void.
+     * @return void.
+     */
+    void draw();
+    /**
      * @brief loads the object.
      * @param 3D vector from GLM.
      * @return void.
@@ -78,6 +84,17 @@ public:
 
 protected:
     glm::mat4 m_modelMatrix;
+    RShader *m_shader;
+
+    bool m_colored;
+    bool m_textured;
+
+    /**
+     * @brief creates shaders. Call it only once!
+     * @param void.
+     * @return void.
+     */
+    void createShaders();
 };
 }
 

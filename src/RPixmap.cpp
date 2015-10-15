@@ -16,6 +16,7 @@
 
 //Realio
 #include "RPixmap.h"
+#include "RCamera.h"
 //C++
 #include <iostream>
 //STB
@@ -31,8 +32,6 @@ RPixmap::RPixmap(
     : RWidget(x,y,w,h)
 {
     imgLoaded = false;
-
-    createShaders();
 }
 
 RPixmap::RPixmap(
@@ -41,22 +40,16 @@ RPixmap::RPixmap(
     : RWidget(x,y,0,0)
 {
     imgLoaded = false;
-
-    createShaders();
 }
 
 RPixmap::RPixmap()
     : RWidget(0,0,0,0)
 {
     imgLoaded = false;
-
-    createShaders();
 }
 
 RPixmap::~RPixmap()
 {
-    m_shader->deleteProgram();
-    delete m_shader;
     if(imgLoaded)
         stbi_image_free(m_image);
 
@@ -85,6 +78,9 @@ bool RPixmap::loadFile(const char *file)
         m_width = img_width;
     }
 
+    m_textured = true;
+    m_colored = false;
+
     return imgLoaded;
 }
 
@@ -93,6 +89,7 @@ bool RPixmap::loadFile(const char *file)
     if(!imgLoaded)
         return;
 
+    createShaders();
     initializeVertices();
 
     glGenTextures(1, &m_texture);
@@ -124,8 +121,15 @@ bool RPixmap::loadFile(const char *file)
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_texture);
-    glUniform1i(glGetUniformLocation(m_shader->getProgram(), "tex"), 0);
+    glUniform1i(glGetUniformLocation(m_shader->getProgram(), "Texture"), 0);
 
+    glm::mat4 view;
+    glm::mat4 projection;
+
+    // Pass the matrices to the shader
+    glUniformMatrix4fv(glGetUniformLocation(m_shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(m_modelMatrix));
+    glUniformMatrix4fv(glGetUniformLocation(m_shader->getProgram(), "view"), 1, GL_FALSE, glm::value_ptr(view));
+    glUniformMatrix4fv(glGetUniformLocation(m_shader->getProgram(), "projection"), 1, GL_FALSE, glm::value_ptr(projection));
     // Activate shader
     m_shader->use();
 
@@ -142,8 +146,6 @@ void RPixmap::initializeVertices()
 
     float xPos = -1.0f + (float(2 * m_xPos)) / float(m_winWidth);
     float yPos = 1.0f - (float(2 * m_yPos)) / float(m_winHeight);
-
-    translate(glm::vec3(xPos, yPos, 0));
 
     float width = float(2 * m_width) / float(m_winWidth);
     float height = float(2 * m_height) / float(m_winHeight);
@@ -190,30 +192,5 @@ void RPixmap::fitByImage()
 
     m_width = img_width;
     m_height = img_height;
-}
-
-void RPixmap::createShaders()
-{
-    const char vShader[] = {
-        "#version 330 core\n"
-        "layout (location = 0) in vec3 position;"
-        "layout (location = 1) in vec2 texCoord;"
-        "out vec2 TexCoord;"
-        "void main() {"
-        "    gl_Position = vec4(position, 1.0f);"
-        "    TexCoord = vec2(texCoord.x, 1.0 - texCoord.y);"
-        "}"
-    };
-    const char fShader[] = {
-        "#version 330 core\n"
-        "in vec2 TexCoord;"
-        "out vec4 color;"
-        "uniform sampler2D tex;"
-        "void main() {"
-        "    color = texture(tex, TexCoord).rgba;"
-        "}"
-    };
-
-    m_shader = new RShader(vShader, fShader);
 }
 }

@@ -274,10 +274,10 @@ void RWindow::deleteWidget(const unsigned ID)
 
     while(SDL_PollEvent(&e))
     {
-        //User requests quit
         switch(e.type)
         {
             case SDL_QUIT:
+                //User requests quit
                 quit = true;
                 break;
             case SDL_APP_TERMINATING:
@@ -299,10 +299,9 @@ void RWindow::deleteWidget(const unsigned ID)
                 if ((m_cursorType & CURSOR_HAND) == CURSOR_HAND)
                     if(m_customCursors[3])
                         m_customCursors[3]->move(e.motion.x, e.motion.y);
-
-            default:
-                callback(e);
         }
+
+        callback(e);
 
         if(quit)
         {

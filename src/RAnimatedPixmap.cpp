@@ -30,8 +30,6 @@ RAnimatedPixmap::RAnimatedPixmap(
     : RPixmap(x,y,w,h)
 {
     currentFrame = 0;
-
-    createShaders();
 }
 
 RAnimatedPixmap::RAnimatedPixmap(
@@ -40,16 +38,12 @@ RAnimatedPixmap::RAnimatedPixmap(
     : RPixmap(x,y)
 {
     currentFrame = 0;
-
-    createShaders();
 }
 
 RAnimatedPixmap::RAnimatedPixmap()
     : RPixmap()
 {
     currentFrame = 0;
-
-    createShaders();
 }
 
 RAnimatedPixmap::~RAnimatedPixmap()
@@ -82,6 +76,9 @@ bool RAnimatedPixmap::loadFile(const char *file)
 
     m_images.push_back(img);
 
+    m_textured = true;
+    m_colored = false;
+
     return imgLoaded;
 }
 
@@ -98,6 +95,7 @@ bool RAnimatedPixmap::loadFile(const char *file)
         m_width = img->w;
     }
 
+    createShaders();
     initializeVertices();
 
     glGenTextures(1, &m_texture);
