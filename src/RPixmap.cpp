@@ -119,6 +119,9 @@ bool RPixmap::loadFile(const char *file)
     if(!imgLoaded)
         return;
 
+    // Activate shader
+    m_shader->use();
+
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_texture);
     glUniform1i(glGetUniformLocation(m_shader->getProgram(), "Texture"), 0);
@@ -130,8 +133,6 @@ bool RPixmap::loadFile(const char *file)
     glUniformMatrix4fv(glGetUniformLocation(m_shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(m_modelMatrix));
     glUniformMatrix4fv(glGetUniformLocation(m_shader->getProgram(), "view"), 1, GL_FALSE, glm::value_ptr(view));
     glUniformMatrix4fv(glGetUniformLocation(m_shader->getProgram(), "projection"), 1, GL_FALSE, glm::value_ptr(projection));
-    // Activate shader
-    m_shader->use();
 
     // Draw container
     glBindVertexArray(VAO);
@@ -143,9 +144,6 @@ void RPixmap::initializeVertices()
 {
     if(!imgLoaded)
         return;
-
-    float xPos = -1.0f + (float(2 * m_xPos)) / float(m_winWidth);
-    float yPos = 1.0f - (float(2 * m_yPos)) / float(m_winHeight);
 
     float width = float(2 * m_width) / float(m_winWidth);
     float height = float(2 * m_height) / float(m_winHeight);
