@@ -148,6 +148,7 @@ private:
         std::string outputVariables;
         std::string mainFunction;
         unsigned location = 0;
+        bool used = true;
     };
 
     Shader m_vertexShader;

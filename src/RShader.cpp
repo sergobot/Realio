@@ -23,6 +23,7 @@ namespace Realio {
 RShader::RShader()
 {
     initVariableTypes();
+    m_geometryShader.used = false;
 }
 
 RShader::RShader(const char *vShader, const char *fShader, const char *gShader)
@@ -66,9 +67,9 @@ void RShader::initVariableTypes()
         {RSHADER_MAT4X3_VARIABLE,       "mat4x3"},
         {RSHADER_MAT4X4_VARIABLE,       "mat4x4"},
 
-        {RSHADER_SAMPLER1D_VARIABLE,    "Sampler1D"},
-        {RSHADER_SAMPLER2D_VARIABLE,    "Sampler2D"},
-        {RSHADER_SAMPLER3D_VARIABLE,    "Sampler3D"}
+        {RSHADER_SAMPLER1D_VARIABLE,    "sampler1D"},
+        {RSHADER_SAMPLER2D_VARIABLE,    "sampler2D"},
+        {RSHADER_SAMPLER3D_VARIABLE,    "sampler3D"}
     };
 }
 
@@ -114,7 +115,7 @@ void RShader::compileShaders(const char *vShader, const char *fShader, const cha
     glAttachShader(m_program, fragment);
 
     //Geometry Shader
-    if(gShader != nullptr)
+    if(gShader != nullptr && m_geometryShader.used)
     {
         geometry = glCreateShader(GL_GEOMETRY_SHADER);
         glShaderSource(geometry, 1, &gShader, NULL);
@@ -177,42 +178,70 @@ void RShader::compileShaders()
 
 void RShader::addUniform(const char *name, RShaderVariableType variableType, RShaderShaderType shaderType)
 {
+    std::string line = std::string("uniform " + m_variableTypes.at(variableType) + " " + name + ";\n");
+
     if(shaderType == RSHADER_VERTEX_SHADER)
-        m_vertexShader.uniforms.append("uniform " + m_variableTypes.at(variableType) + " " + name + ";\n");
+    {
+        if(m_vertexShader.uniforms.find(line) != std::string::npos)
+            return;
+        m_vertexShader.uniforms.append(line);
+    }
     else if(shaderType == RSHADER_GEOMETRY_SHADER)
-        m_geometryShader.uniforms.append("uniform " + m_variableTypes.at(variableType) + " " + name + ";\n");
+    {
+        if(m_geometryShader.uniforms.find(line) != std::string::npos)
+            return;
+        m_geometryShader.uniforms.append(line);
+    }
     else if(shaderType == RSHADER_FRAGMENT_SHADER)
-        m_fragmentShader.uniforms.append("uniform " + m_variableTypes.at(variableType) + " " + name + ";\n");
+    {
+        if(m_fragmentShader.uniforms.find(line) != std::string::npos)
+            return;
+        m_fragmentShader.uniforms.append(line);
+    }
     else
         std::cerr << "Could not add uniform variable '" << name << "' to any shader: Wrong shader type.\n";
 }
 
 int RShader::addInputVariable(const char *name, RShaderVariableType variableType, RShaderShaderType shaderType, bool located)
 {
+    std::string line = std::string("in " + m_variableTypes.at(variableType) + " " + name + ";\n");
+
     if(shaderType == RSHADER_VERTEX_SHADER)
-        if(located) 
+    {
+        if(m_vertexShader.inputVariables.find(line) != std::string::npos)
+            return -1;
+
+        if(located)
         {
+            unsigned loc = m_vertexShader.location;
             std::string variable(name);
             std::size_t i = variable.find('[');
-            unsigned loc = m_vertexShader.location;
             if(i != std::string::npos)
             {
-                m_vertexShader.inputVariables.append("layout (location = " + std::to_string(loc) + ") in " +
-                                                 m_variableTypes.at(variableType) +
-                                                 " " + name + ";\n");
                 m_vertexShader.location += std::stoi(std::string(variable.begin() + i + 1, variable.begin() + variable.find(']') - 1));
             }
             else
                 m_vertexShader.location += 1;
+
+            m_vertexShader.inputVariables.append("layout (location = " + std::to_string(loc) + ") " + line);
             
             return loc;
         }
         else
-            m_vertexShader.inputVariables.append("in " + m_variableTypes.at(variableType) + " " + name + ";\n");
+            m_vertexShader.inputVariables.append(line);
+    }
     else if(shaderType == RSHADER_GEOMETRY_SHADER)
-        m_geometryShader.inputVariables.append("in " + m_variableTypes.at(variableType) + " " + name + ";\n");
+    {
+        if(m_geometryShader.inputVariables.find(line) != std::string::npos)
+            return -1;
+        m_geometryShader.inputVariables.append(line);
+    }
     else if(shaderType == RSHADER_FRAGMENT_SHADER)
-        m_fragmentShader.inputVariables.append("in " + m_variableTypes.at(variableType) + " " + name + ";\n");
+    {
+        if(m_fragmentShader.inputVariables.find(line) != std::string::npos)
+            return -1;
+        m_fragmentShader.inputVariables.append(line);
+    }
     else
         std::cerr << "Could not add input variable '" << name << "' to any shader: Wrong shader type.\n";
     
@@ -221,31 +250,44 @@ int RShader::addInputVariable(const char *name, RShaderVariableType variableType
 
 int RShader::addOutputVariable(const char *name, RShaderVariableType variableType, RShaderShaderType shaderType, bool located)
 {
+    std::string line = std::string("out " + m_variableTypes.at(variableType) + " " + name + ";\n");
+
     if(shaderType == RSHADER_VERTEX_SHADER)
-        m_vertexShader.outputVariables.append("out " + m_variableTypes.at(variableType) + " " + name + ";\n");
+    {
+        if(m_vertexShader.outputVariables.find(line) != std::string::npos)
+            return -1;
+        m_vertexShader.outputVariables.append(line);
+    }
     else if(shaderType == RSHADER_GEOMETRY_SHADER)
-        m_geometryShader.outputVariables.append("out " + m_variableTypes.at(variableType) + " " + name + ";\n");
+    {
+        if(m_geometryShader.outputVariables.find(line) != std::string::npos)
+            return -1;
+        m_geometryShader.outputVariables.append(line);
+    }
     else if(shaderType == RSHADER_FRAGMENT_SHADER)
     {
-        if(located) 
+        if(m_fragmentShader.outputVariables.find(line) != std::string::npos)
+            return -1;
+
+        if(located)
         {
+            unsigned loc = m_fragmentShader.location;
             std::string variable(name);
             std::size_t i = variable.find('[');
-            unsigned loc = m_fragmentShader.location;
+
             if(i != std::string::npos)
             {
-                m_fragmentShader.outputVariables.append("layout (location = " + std::to_string(loc) + ") out " +
-                                                 m_variableTypes.at(variableType) +
-                                                 " " + name + ";\n");
                 m_fragmentShader.location += std::stoi(std::string(variable.begin() + i + 1, variable.begin() + variable.find(']') - 1));
             }
             else
                 m_fragmentShader.location += 1;
+
+            m_fragmentShader.outputVariables.append("layout (location = " + std::to_string(loc) + ") " + line);
             
             return loc;
         }
         else
-            m_fragmentShader.outputVariables.append("out " + m_variableTypes.at(variableType) + " " + name + ";\n");
+            m_fragmentShader.outputVariables.append(line);
     }
     else
         std::cerr << "Could not add output variable '" << name << "' to any shader: Wrong shader type.\n";
