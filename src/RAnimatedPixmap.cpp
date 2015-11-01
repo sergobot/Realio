@@ -95,8 +95,18 @@ bool RAnimatedPixmap::loadFile(const char *file)
         m_width = img->w;
     }
 
-    createShaders();
+    //Update vertex shader
+    m_shader->addInputVariable("texCoord", RSHADER_VEC2_VARIABLE, RSHADER_VERTEX_SHADER, true);
+    m_shader->addOutputVariable("TexCoord", RSHADER_VEC2_VARIABLE, RSHADER_VERTEX_SHADER, false);
+    m_shader->addAction("TexCoord = vec2(texCoord.x, 1.0 - texCoord.y);\n", RSHADER_VERTEX_SHADER);
+    //Update fragment shader
+    m_shader->addInputVariable("TexCoord", RSHADER_VEC2_VARIABLE, RSHADER_FRAGMENT_SHADER, false);
+    m_shader->addUniform("Texture", RSHADER_SAMPLER2D_VARIABLE, RSHADER_FRAGMENT_SHADER);
+    m_shader->addAction("color = texture(Texture, TexCoord).rgba;\n", RSHADER_FRAGMENT_SHADER);
+
     initializeVertices();
+    //Compile those shaders
+    m_shader->compileShaders();
 
     glGenTextures(1, &m_texture);
     glBindTexture(GL_TEXTURE_2D, m_texture);
