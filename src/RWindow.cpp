@@ -49,7 +49,7 @@ RWindow::RWindow(const std::string & title = "")
     m_cursorType = CURSOR_ARROW;
 }
 
-RWindow::~RWindow()
+/*virtual*/ RWindow::~RWindow()
 {
     for(unsigned i = 0; i < 4; ++i)
         if(m_customCursors[i] != nullptr)
@@ -149,7 +149,7 @@ std::string RWindow::getTitle()
     return m_title;
 }
 
-void RWindow::setCursor(const char *filename, const Uint32 type)
+void RWindow::setCursor(const char *filename, const RWindowCursorType type)
 {
     if ((type & CURSOR_ARROW) == CURSOR_ARROW)
     {
@@ -181,11 +181,12 @@ void RWindow::setCursor(const char *filename, const Uint32 type)
     }
 }
 
-void RWindow::setCurrentCursor(const Uint32 type)
+void RWindow::setCurrentCursor(const RWindowCursorType type)
 {
     m_cursorType = type;
 
-    if ((m_cursorType & CURSOR_ARROW) == CURSOR_ARROW)
+    if (m_cursorType == CURSOR_ARROW)
+    {
         if(m_customCursors[0])
         {
             SDL_ShowCursor(0);
@@ -196,8 +197,9 @@ void RWindow::setCurrentCursor(const Uint32 type)
             SDL_ShowCursor(1);
             SDL_SetCursor(m_systemCursors[0]);
         }
-
-    if ((m_cursorType & CURSOR_IBEAM) == CURSOR_IBEAM)
+    }
+    else if (m_cursorType == CURSOR_IBEAM)
+    {
         if(m_customCursors[1])
         {
             SDL_ShowCursor(0);
@@ -208,8 +210,9 @@ void RWindow::setCurrentCursor(const Uint32 type)
             SDL_ShowCursor(1);
             SDL_SetCursor(m_systemCursors[1]);
         }
-
-    if ((m_cursorType & CURSOR_WAIT) == CURSOR_WAIT)
+    }
+    else if (m_cursorType == CURSOR_WAIT)
+    {
         if(m_customCursors[2])
         {
             SDL_ShowCursor(0);
@@ -220,8 +223,9 @@ void RWindow::setCurrentCursor(const Uint32 type)
             SDL_ShowCursor(1);
             SDL_SetCursor(m_systemCursors[2]);
         }
-
-    if ((m_cursorType & CURSOR_HAND) == CURSOR_HAND)
+    }
+    else if (m_cursorType == CURSOR_HAND)
+    {
         if(m_customCursors[3])
         {
             SDL_ShowCursor(0);
@@ -232,8 +236,8 @@ void RWindow::setCurrentCursor(const Uint32 type)
             SDL_ShowCursor(1);
             SDL_SetCursor(m_systemCursors[4]);
         }
-
-    if ((m_cursorType & CURSOR_NO) == CURSOR_NO)
+    }
+    else if (m_cursorType == CURSOR_NO)
     {
         SDL_ShowCursor(0);
         SDL_SetCursor(m_systemCursors[3]);

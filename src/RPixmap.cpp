@@ -20,7 +20,6 @@
 //C++
 #include <iostream>
 //STB
-#define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
 
 namespace Realio {
@@ -48,7 +47,7 @@ RPixmap::RPixmap()
     imgLoaded = false;
 }
 
-RPixmap::~RPixmap()
+/*virtual*/ RPixmap::~RPixmap()
 {
     if(imgLoaded)
         stbi_image_free(m_image);
@@ -77,9 +76,6 @@ bool RPixmap::loadFile(const char *file)
         m_height = img_height;
         m_width = img_width;
     }
-
-    m_textured = true;
-    m_colored = false;
 
     return imgLoaded;
 }

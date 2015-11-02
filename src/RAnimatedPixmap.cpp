@@ -46,7 +46,7 @@ RAnimatedPixmap::RAnimatedPixmap()
     currentFrame = 0;
 }
 
-RAnimatedPixmap::~RAnimatedPixmap()
+/*virtual*/ RAnimatedPixmap::~RAnimatedPixmap()
 {
     for(unsigned i = 0; i < m_images.size(); ++i)
     {
@@ -75,9 +75,6 @@ bool RAnimatedPixmap::loadFile(const char *file)
     img->index = m_images.size();
 
     m_images.push_back(img);
-
-    m_textured = true;
-    m_colored = false;
 
     return imgLoaded;
 }

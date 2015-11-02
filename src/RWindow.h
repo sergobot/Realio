@@ -27,11 +27,20 @@
 #include <SDL2/SDL.h>
 
 namespace Realio {
+//Cursor types
+enum RWindowCursorType {
+    CURSOR_ARROW,   //Arrow cursor
+    CURSOR_IBEAM,   //I-beam cursor
+    CURSOR_WAIT,    //Wait cursor
+    CURSOR_NO,      //No cursor
+    CURSOR_HAND     //Hand cursor
+};
+
 class RWindow
 {
 public:
     explicit RWindow(const std::string & title);
-    ~RWindow();
+    virtual ~RWindow();
 
     /**
      * @brief shows the window.
@@ -80,14 +89,14 @@ public:
      * @param path to a cursor image and type of the setting cursor.
      * @return void.
      */
-    void setCursor(const char* filename, const Uint32 type);
+    void setCursor(const char* filename, const RWindowCursorType type);
 
     /**
      * @brief sets cursor to an image.
      * @param type of the cursor.
      * @return void.
      */
-    void setCurrentCursor(const Uint32 type);
+    void setCurrentCursor(const RWindowCursorType type);
 
     /**
      * @brief returns the window's title.
@@ -139,7 +148,7 @@ private:
 
     SDL_Cursor *m_systemCursors[5];
     RPixmap *m_customCursors[4];
-    Uint32 m_cursorType;
+    RWindowCursorType m_cursorType;
 
     std::vector<RWidget*> m_widgets;
     std::vector<unsigned> m_IDs;
@@ -164,16 +173,6 @@ private:
      */
     void drawCursor();
 };
-
-//Cursor types
-typedef enum
-{
-    CURSOR_ARROW        = 0x00000001,         //Arrow cursor
-    CURSOR_IBEAM        = 0x00000002,         //I-beam cursor
-    CURSOR_WAIT         = 0x00000004,         //Wait cursor
-    CURSOR_NO           = 0x00000008,         //No cursor
-    CURSOR_HAND         = 0x00000010,         //Hand cursor
-} RWindowCursorType;
 }
 
 #endif // RWINDOW_H

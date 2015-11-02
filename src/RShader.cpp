@@ -129,9 +129,13 @@ void RShader::compileShaders(const char *vShader, const char *fShader, const cha
         }
 
         glAttachShader(m_program, geometry);
-    }
+        glLinkProgram(m_program);
 
-    glLinkProgram(m_program);
+        glDeleteShader(geometry);
+    }
+    else
+        glLinkProgram(m_program);
+
     // Print linking errors if any
     glGetProgramiv(m_program, GL_LINK_STATUS, &success);
     if (!success)
@@ -142,9 +146,7 @@ void RShader::compileShaders(const char *vShader, const char *fShader, const cha
 
     // Delete the shaders as they're linked into our program now and no longer necessary
     glDeleteShader(vertex);
-    glDeleteShader(fragment);
-    if(gShader != nullptr)
-        glDeleteShader(geometry);
+    glDeleteShader(fragment); 
 }
 
 void RShader::compileShaders()

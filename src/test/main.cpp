@@ -24,6 +24,10 @@ Realio::RAnimatedPixmap *pixmap;
 void keyCallback(SDL_Event e);
 int main(int argc, char **argv)
 {
+    //Unused parameters
+    (void)argc;
+    (void)argv;
+
     pixmap = new Realio::RAnimatedPixmap();
     pixmap->loadFile("image1.png");
     pixmap->loadFile("image2.png");

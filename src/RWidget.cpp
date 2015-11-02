@@ -24,18 +24,17 @@ RWidget::RWidget(
         const int y = 0,
         const int w = 0,
         const int h = 0)
+    : m_xPos(x)
+    , m_yPos(y)
+    , m_width(w)
+    , m_height(h)
+    , m_moved(false)
+    , m_resized(false)
 {
-    m_xPos = x;
-    m_yPos = y;
-    m_width = w;
-    m_height = h;
-
-    m_moved, m_resized = false;
-
     m_id = generateID();
 }
 
-RWidget::~RWidget()
+/*virtual*/ RWidget::~RWidget()
 {
 
 }
@@ -106,7 +105,8 @@ void RWidget::setWindowSize(int w, int h)
 
     int x = m_xPos;
     int y = m_yPos;
-    m_xPos, m_yPos = 0;
+    m_xPos = 0;
+    m_yPos = 0;
 
     move(x, y);
 }
