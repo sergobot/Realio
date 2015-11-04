@@ -180,7 +180,7 @@ void RShader::compileShaders()
 
 void RShader::addUniform(const char *name, RShaderVariableType variableType, RShaderShaderType shaderType)
 {
-    std::string line = std::string("uniform " + m_variableTypes.at(variableType) + " " + name + ";\n");
+    std::string line = "uniform " + m_variableTypes.at(variableType) + " " + name + ";\n";
 
     if(shaderType == RSHADER_VERTEX_SHADER)
     {
@@ -206,7 +206,7 @@ void RShader::addUniform(const char *name, RShaderVariableType variableType, RSh
 
 int RShader::addInputVariable(const char *name, RShaderVariableType variableType, RShaderShaderType shaderType, bool located)
 {
-    std::string line = std::string("in " + m_variableTypes.at(variableType) + " " + name + ";\n");
+    std::string line = "in " + m_variableTypes.at(variableType) + " " + name + ";\n";
 
     if(shaderType == RSHADER_VERTEX_SHADER)
     {
@@ -252,7 +252,7 @@ int RShader::addInputVariable(const char *name, RShaderVariableType variableType
 
 int RShader::addOutputVariable(const char *name, RShaderVariableType variableType, RShaderShaderType shaderType, bool located)
 {
-    std::string line = std::string("out " + m_variableTypes.at(variableType) + " " + name + ";\n");
+    std::string line = "out " + m_variableTypes.at(variableType) + " " + name + ";\n";
 
     if(shaderType == RSHADER_VERTEX_SHADER)
     {
