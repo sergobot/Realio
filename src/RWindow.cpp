@@ -21,12 +21,13 @@
 
 namespace Realio {
 RWindow::RWindow(const std::string & title = "")
+    : m_title(title)
+    , m_window(nullptr)
+    , m_surface(nullptr)
+    , callback(nullptr)
+    , quit(false)
+    , m_cursorType(CURSOR_ARROW)
 {
-    m_window = nullptr;
-    m_surface = nullptr;
-
-    m_title = title;
-
     if(!initializeSDL())
     {
         std::cerr << "Exiting.\n";
@@ -44,9 +45,6 @@ RWindow::RWindow(const std::string & title = "")
     // Enable blending
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
-
-    quit = false;
-    m_cursorType = CURSOR_ARROW;
 }
 
 /*virtual*/ RWindow::~RWindow()
@@ -305,7 +303,8 @@ void RWindow::deleteWidget(const unsigned ID)
                         m_customCursors[3]->move(e.motion.x, e.motion.y);
         }
 
-        callback(e);
+        if(callback != nullptr)
+            callback(e);
 
         if(quit)
         {
