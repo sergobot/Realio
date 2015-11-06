@@ -178,7 +178,7 @@ void RShader::compileShaders()
     compileShaders(m_vertexShader.shader.c_str(), m_fragmentShader.shader.c_str(), m_geometryShader.shader.c_str());
 }
 
-void RShader::addUniform(const char *name, RShaderVariableType variableType, RShaderShaderType shaderType)
+void RShader::addUniform(const char *name, const RShaderVariableType variableType, const RShaderShaderType shaderType)
 {
     std::string line = "uniform " + m_variableTypes.at(variableType) + " " + name + ";\n";
 
@@ -204,7 +204,7 @@ void RShader::addUniform(const char *name, RShaderVariableType variableType, RSh
         std::cerr << "Could not add uniform variable '" << name << "' to any shader: Wrong shader type.\n";
 }
 
-int RShader::addInputVariable(const char *name, RShaderVariableType variableType, RShaderShaderType shaderType, bool located)
+int RShader::addInputVariable(const char *name, const RShaderVariableType variableType, const RShaderShaderType shaderType, const bool located)
 {
     std::string line = "in " + m_variableTypes.at(variableType) + " " + name + ";\n";
 
@@ -250,7 +250,7 @@ int RShader::addInputVariable(const char *name, RShaderVariableType variableType
     return -1;
 }
 
-int RShader::addOutputVariable(const char *name, RShaderVariableType variableType, RShaderShaderType shaderType, bool located)
+int RShader::addOutputVariable(const char *name, const RShaderVariableType variableType, const RShaderShaderType shaderType, const bool located)
 {
     std::string line = "out " + m_variableTypes.at(variableType) + " " + name + ";\n";
 
@@ -297,7 +297,7 @@ int RShader::addOutputVariable(const char *name, RShaderVariableType variableTyp
     return -1;
 }
 
-void RShader::addAction(const char *line, RShaderShaderType shaderType)
+void RShader::addAction(const char *line, const RShaderShaderType shaderType)
 {
     if(shaderType == RSHADER_VERTEX_SHADER)
         m_vertexShader.mainFunction.append(line);

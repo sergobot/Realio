@@ -68,7 +68,7 @@ void RWidget::resize(const int w, const int h)
     m_resized = true;
 }
 
-void RWidget::scale(float ratio)
+void RWidget::scale(const float ratio)
 {
     R3DObject::scale(ratio);
 }
@@ -98,7 +98,7 @@ int RWidget::getID()
 
 }
 
-void RWidget::setWindowSize(int w, int h)
+void RWidget::setWindowSize(const int w, const int h)
 {
     m_winWidth = w;
     m_winHeight = h;

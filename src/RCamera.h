@@ -73,21 +73,21 @@ public:
      * @param direction and delta time.
      * @return void.
      */
-    void move(RCameraMoveDirection direction, float deltaTime);
+    void move(const RCameraMoveDirection direction, const float deltaTime);
 
     /**
      * @brief rotates the camera.
      * @param x and y axis' offsets.
      * @return void.
      */
-    void processMouseMovement(float xoffset, float yoffset, bool constrainPitch = true);
+    void processMouseMovement(const float xoffset, const float yoffset, const bool constrainPitch = true);
 
     /**
      * @brief zooms camera's view.
      * @param ratio of zoom.
      * @return void.
      */
-    void zoom(float ratio);
+    void zoom(const float ratio);
 
     /**
      * @brief returns current zoom ratio.
@@ -101,7 +101,7 @@ public:
      * @param new speed in float.
      * @return void.
      */
-    void setMovementSpeed(float speed);
+    void setMovementSpeed(const float speed);
 
     /**
      * @brief returns movement speed of the camera.

@@ -103,28 +103,28 @@ public:
      * @param name of the variable, its type and shader's type, to which the variable is added.
      * @return void.
      */
-    void addUniform(const char* name, RShaderVariableType variableType, RShaderShaderType shaderType);
+    void addUniform(const char* name, const RShaderVariableType variableType, const RShaderShaderType shaderType);
 
     /**
      * @brief adds an input variable to the shader.
      * @param name of the variable, its type and shader's type, to which the variable is added and location trigger.
      * @return if shader is vertex and located = true returns location, else returns -1.
      */
-    int addInputVariable(const char* name, RShaderVariableType variableType, RShaderShaderType shaderType, bool located = true);
+    int addInputVariable(const char* name, const RShaderVariableType variableType, const RShaderShaderType shaderType, bool located = true);
 
     /**
      * @brief adds an output variable to the shader.
      * @param name of the variable, its type and shader's type, to which the variable is added and location trigger.
      * @return if shader is fragment and located = true returns location, else returns -1.
      */
-    int addOutputVariable(const char* name, RShaderVariableType variableType, RShaderShaderType shaderType, bool located = true);
+    int addOutputVariable(const char* name, const RShaderVariableType variableType, const RShaderShaderType shaderType, bool located = true);
     
     /**
      * @brief adds a line to the main function of the shader.
      * @param line to be executed in the main function of the shader and shader's type, to which the line is added.
      * @return void.
      */
-    void addAction(const char* line, RShaderShaderType shaderType);
+    void addAction(const char* line, const RShaderShaderType shaderType);
 
     /**
      * @brief returns the program.

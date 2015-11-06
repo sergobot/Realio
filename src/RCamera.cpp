@@ -18,7 +18,7 @@
 #include "RCamera.h"
 
 namespace Realio {
-RCamera* RCamera::global = new RCamera(glm::vec3(1.0f, -1.0f, 3.0f));
+RCamera* RCamera::global = new RCamera(glm::vec3(0.0f, 0.0f, 3.0f));
 
 RCamera::RCamera(glm::vec3 position, glm::vec3 up, float yaw, float pitch)
     : m_front(glm::vec3(0.0f, 0.0f, -1.0f))
@@ -58,7 +58,7 @@ void RCamera::reset()
     updateCameraVectors();
 }
 
-void RCamera::move(RCameraMoveDirection direction, float deltaTime)
+void RCamera::move(const RCameraMoveDirection direction, const float deltaTime)
 {
     float velocity = this->m_movementSpeed * deltaTime;
 
@@ -82,7 +82,7 @@ float RCamera::getZoomRatio()
     return m_zoom;
 }
 
-void RCamera::processMouseMovement(float xoffset, float yoffset, bool constrainPitch)
+void RCamera::processMouseMovement(float xoffset, float yoffset, const bool constrainPitch)
 {
     xoffset *= m_mouseSensitivity;
     yoffset *= m_mouseSensitivity;
@@ -103,7 +103,7 @@ void RCamera::processMouseMovement(float xoffset, float yoffset, bool constrainP
     updateCameraVectors();
 }
 
-void RCamera::setMovementSpeed(float speed)
+void RCamera::setMovementSpeed(const float speed)
 {
     m_movementSpeed = speed;
 }

@@ -60,7 +60,7 @@ public:
      * @param scaling ratio in float.
      * @return void.
      */
-    void scale(float ratio);
+    void scale(const float ratio);
 
     /**
      * @brief returns widget's width.
@@ -88,7 +88,7 @@ public:
      * @param window's width and height
      * @return void
      */
-    void setWindowSize(int w, int h);
+    void setWindowSize(const int w, const int h);
 
     /**
      * @brief shows up the widget.

@@ -42,7 +42,7 @@ public:
      * @param new text.
      * @return void.
      */
-    void setText(std::string text);
+    void setText(const std::string & text);
 
     /**
      * @brief updates the widget's content.

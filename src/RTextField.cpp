@@ -41,7 +41,7 @@ std::string RTextField::getText()
     return m_text;
 }
 
-void RTextField::setText(std::string text)
+void RTextField::setText(const std::string & text)
 {
     m_text = text;
 }
