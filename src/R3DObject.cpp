@@ -38,6 +38,19 @@ R3DObject::~R3DObject()
         m_shader->deleteProgram();
         delete m_shader;
     }
+
+    if(!m_meshes.empty())
+    {
+        for(unsigned i = 0; i < m_meshes.size(); ++i)
+        {
+            m_meshes[i].shader->deleteProgram();
+            delete m_meshes[i].shader;
+        }
+    }
+
+    if(!m_textures.empty())
+        for(unsigned i = 0; i < m_textures.size(); ++i)
+            delete m_textures[i];
 }
 void R3DObject::translate(const glm::vec3 vec)
 {
