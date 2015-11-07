@@ -14,9 +14,9 @@
  * Copyright (C) 2015 Sergey Popov <sergobot@vivaldi.net>
 **/
 
-//Realio
+// Realio
 #include "RShader.h"
-//C++
+// C++
 #include <iostream>
 
 namespace Realio {
@@ -114,7 +114,7 @@ void RShader::compileShaders(const char *vShader, const char *fShader, const cha
     glAttachShader(m_program, vertex);
     glAttachShader(m_program, fragment);
 
-    //Geometry Shader
+    // Geometry Shader
     if(gShader != nullptr && m_geometryShader.used)
     {
         geometry = glCreateShader(GL_GEOMETRY_SHADER);
@@ -151,7 +151,7 @@ void RShader::compileShaders(const char *vShader, const char *fShader, const cha
 
 void RShader::compileShaders()
 {
-    //Concatenate data to the vertex shader
+    // Concatenate data to the vertex shader
     m_vertexShader.shader = "#version 330 core\n";
     m_vertexShader.shader.append(m_vertexShader.inputVariables);
     m_vertexShader.shader.append(m_vertexShader.outputVariables);
@@ -159,7 +159,7 @@ void RShader::compileShaders()
     m_vertexShader.shader.append("void main() {\n");
     m_vertexShader.shader.append(m_vertexShader.mainFunction + "}");
 
-    //Concatenate data to the fragment shader
+    // Concatenate data to the fragment shader
     m_fragmentShader.shader = "#version 330 core\n";
     m_fragmentShader.shader.append(m_fragmentShader.inputVariables);
     m_fragmentShader.shader.append(m_fragmentShader.outputVariables);
@@ -167,7 +167,7 @@ void RShader::compileShaders()
     m_fragmentShader.shader.append("void main() {\n");
     m_fragmentShader.shader.append(m_fragmentShader.mainFunction + "}");
 
-    //Concatenate data to the geometry shader
+    // Concatenate data to the geometry shader
     m_geometryShader.shader = "#version 330 core\n";
     m_geometryShader.shader.append(m_geometryShader.inputVariables);
     m_geometryShader.shader.append(m_geometryShader.outputVariables);

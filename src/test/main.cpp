@@ -24,7 +24,7 @@ Realio::RAnimatedPixmap *pixmap;
 void keyCallback(SDL_Event e);
 int main(int argc, char **argv)
 {
-    //Unused parameters
+    // Unused parameters
     (void)argc;
     (void)argv;
 

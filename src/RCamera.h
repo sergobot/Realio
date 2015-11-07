@@ -17,13 +17,13 @@
 #ifndef RCAMERA_H
 #define RCAMERA_H
 
-//GLEW
+// GLEW
 #include <GL/glew.h>
-//GLM
+// GLM
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-//SDL2
+// SDL2
 #include <SDL2/SDL.h>
 
 namespace Realio {

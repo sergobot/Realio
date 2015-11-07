@@ -14,7 +14,7 @@
  * Copyright (C) 2015 Sergey Popov <sergobot@vivaldi.net>
 **/
 
-//Realio
+// Realio
 #include "RCamera.h"
 
 namespace Realio {

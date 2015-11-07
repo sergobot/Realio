@@ -17,8 +17,8 @@
 #ifndef RWIDGET_GLOBAL_H
 #define RWIDGET_GLOBAL_H
 
-//ID of the last created RWidget.
-//Don't change it manually!
+// ID of the last created RWidget.
+// Don't change it manually!
 unsigned lastID = 0;
 
 inline unsigned generateID()

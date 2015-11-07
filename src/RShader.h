@@ -17,55 +17,55 @@
 #ifndef RSHADER_H
 #define RSHADER_H
 
-//C++
+// C++
 #include <string>
 #include <vector>
 #include <map>
-//GLEW
+// GLEW
 #include <GL/glew.h>
 
 namespace Realio {
 enum RShaderShaderType {
-    RSHADER_VERTEX_SHADER,   //Vertex shader
-    RSHADER_GEOMETRY_SHADER, //Geometry shader
-    RSHADER_FRAGMENT_SHADER  //Fragment shader
+    RSHADER_VERTEX_SHADER,   // Vertex shader
+    RSHADER_GEOMETRY_SHADER, // Geometry shader
+    RSHADER_FRAGMENT_SHADER  // Fragment shader
 };
 
 enum RShaderVariableType {
-    //Basic scalar types
+    // Basic scalar types
     RSHADER_BOOL_VARIABLE,
     RSHADER_INT_VARIABLE,
     RSHADER_UINT_VARIABLE,
     RSHADER_FLOAT_VARIABLE,
-    //Boolean vector
+    // Boolean vector
     RSHADER_BVEC2_VARIABLE,
     RSHADER_BVEC3_VARIABLE,
     RSHADER_BVEC4_VARIABLE,
-    //Integer vector
+    // Integer vector
     RSHADER_IVEC2_VARIABLE,
     RSHADER_IVEC3_VARIABLE,
     RSHADER_IVEC4_VARIABLE,
-    //Unsigned integer vector
+    // Unsigned integer vector
     RSHADER_UVEC2_VARIABLE,
     RSHADER_UVEC3_VARIABLE,
     RSHADER_UVEC4_VARIABLE,
-    //Floating point vector
+    // Floating point vector
     RSHADER_VEC2_VARIABLE,
     RSHADER_VEC3_VARIABLE,
     RSHADER_VEC4_VARIABLE,
-    //Floating point matrix with 2 columns
+    // Floating point matrix with 2 columns
     RSHADER_MAT2X2_VARIABLE,
     RSHADER_MAT2X3_VARIABLE,
     RSHADER_MAT2X4_VARIABLE,
-    //Floating point matrix with 3 columns
+    // Floating point matrix with 3 columns
     RSHADER_MAT3X2_VARIABLE,
     RSHADER_MAT3X3_VARIABLE,
     RSHADER_MAT3X4_VARIABLE,
-    //Floating point matrix with 4 columns
+    // Floating point matrix with 4 columns
     RSHADER_MAT4X2_VARIABLE,
     RSHADER_MAT4X3_VARIABLE,
     RSHADER_MAT4X4_VARIABLE,
-    //Sapmlers
+    // Sapmlers
     RSHADER_SAMPLER1D_VARIABLE,
     RSHADER_SAMPLER2D_VARIABLE,
     RSHADER_SAMPLER3D_VARIABLE,

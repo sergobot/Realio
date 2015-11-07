@@ -17,7 +17,7 @@
 #ifndef RWIDGET_H
 #define RWIDGET_H
 
-//Realio
+// Realio
 #include "R3DObject.h"
 
 namespace Realio {

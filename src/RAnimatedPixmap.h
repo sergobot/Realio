@@ -17,9 +17,9 @@
 #ifndef RANIMATEDPIXMAP_H
 #define RANIMATEDPIXMAP_H
 
-//Realio
+// Realio
 #include "RPixmap.h"
-//C++
+// C++
 #include <vector>
 
 namespace Realio {

@@ -17,17 +17,17 @@
 #ifndef R3DOBJECT_H
 #define R3DOBJECT_H
 
-//Realio
+// Realio
 #include "RShader.h"
-//ASSIMP
+// ASSIMP
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-//GLM
+// GLM
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-//SDL2
+// SDL2
 #include <SDL2/SDL.h>
 
 namespace Realio {
@@ -101,10 +101,10 @@ protected:
     };
 
     struct Texture {
-        GLuint id = 0;  //OpenGL texture ID
+        GLuint id = 0;  // OpenGL texture ID
         R3DObjectTextureType type = R3DOBJECT_DIFFUSE_TEXTURE;
-        std::string path = ""; //Path to texture's image
-        std::string name = ""; //Texture's variable name in fragment shader
+        std::string path = ""; // Path to texture's image
+        std::string name = ""; // Texture's variable name in fragment shader
     };
     std::vector<Texture*> m_textures;
 

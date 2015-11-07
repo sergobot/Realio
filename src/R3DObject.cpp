@@ -14,13 +14,13 @@
  * Copyright (C) 2015 Sergey Popov <sergobot@vivaldi.net>
 **/
 
-//Realio
+// Realio
 #include "R3DObject.h"
 #include "RCamera.h"
-//C++
+// C++
 #include <iostream>
 #include <sstream>
-//STB
+// STB
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb/stb_image.h"
 
@@ -105,19 +105,19 @@ R3DObject::Mesh R3DObject::processMesh(const aiMesh *mesh, const aiScene *scene)
         Vertex vertex;
         glm::vec3 vec;
 
-        //Positions
+        // Positions
         vec.x = mesh->mVertices[i].x;
         vec.y = mesh->mVertices[i].y;
         vec.z = mesh->mVertices[i].z;
         vertex.position = vec;
 
-        //Normals
+        // Normals
         vec.x = mesh->mNormals[i].x;
         vec.y = mesh->mNormals[i].y;
         vec.z = mesh->mNormals[i].z;
         vertex.normal = vec;
 
-        //Texture coordinates
+        // Texture coordinates
         if(mesh->mTextureCoords[i])
         {
             glm::vec2 vector;
@@ -129,7 +129,7 @@ R3DObject::Mesh R3DObject::processMesh(const aiMesh *mesh, const aiScene *scene)
             vertex.texCoord = glm::vec2(0.0f, 0.0f);
         if(mesh->mTangents != nullptr)
         {
-            //Tangent
+            // Tangent
             vec.x = mesh->mTangents[i].x;
             vec.y = mesh->mTangents[i].y;
             vec.z = mesh->mTangents[i].z;
@@ -137,7 +137,7 @@ R3DObject::Mesh R3DObject::processMesh(const aiMesh *mesh, const aiScene *scene)
         }
         if(mesh->mBitangents != nullptr)
         {
-            //Bitangent
+            // Bitangent
             vec.x = mesh->mBitangents[i].x;
             vec.y = mesh->mBitangents[i].y;
             vec.z = mesh->mBitangents[i].z;
@@ -151,7 +151,7 @@ R3DObject::Mesh R3DObject::processMesh(const aiMesh *mesh, const aiScene *scene)
     {
         aiFace face = mesh->mFaces[i];
 
-        //Copy indices of the mesh to our indices vector
+        // Copy indices of the mesh to our indices vector
         for(unsigned j = 0; j < face.mNumIndices; ++j)
             indices.push_back(face.mIndices[j]);
     }
@@ -160,13 +160,13 @@ R3DObject::Mesh R3DObject::processMesh(const aiMesh *mesh, const aiScene *scene)
     {
         aiMaterial *mat = scene->mMaterials[mesh->mMaterialIndex];
 
-        //Diffuse textures
+        // Diffuse textures
         std::vector<Texture*> diffuseTextures = loadMaterialTextures(mat, R3DOBJECT_DIFFUSE_TEXTURE);
         textures.insert(textures.end(), diffuseTextures.begin(), diffuseTextures.end());
-        //Specular textures
+        // Specular textures
         std::vector<Texture*> specularTextures = loadMaterialTextures(mat, R3DOBJECT_SPECULAR_TEXTURE);
         textures.insert(textures.end(), specularTextures.begin(), specularTextures.end());
-        //Normal textures
+        // Normal textures
         std::vector<Texture*> normalTextures = loadMaterialTextures(mat, R3DOBJECT_NORMAL_TEXTURE);
         textures.insert(textures.end(), normalTextures.begin(), normalTextures.end());
     }
@@ -183,29 +183,29 @@ R3DObject::Mesh R3DObject::processMesh(const aiMesh *mesh, const aiScene *scene)
 
 void R3DObject::setupMesh(Mesh *mesh)
 {
-    //Vertex shader
+    // Vertex shader
     mesh->shader->addInputVariable("normal", RSHADER_VEC3_VARIABLE, RSHADER_VERTEX_SHADER);
     mesh->shader->addInputVariable("texCoord", RSHADER_VEC2_VARIABLE, RSHADER_VERTEX_SHADER);
     mesh->shader->addOutputVariable("TexCoord", RSHADER_VEC2_VARIABLE, RSHADER_VERTEX_SHADER);
     mesh->shader->addAction("TexCoord = texCoord;\n", RSHADER_VERTEX_SHADER);
-    //Fragment shader
+    // Fragment shader
     mesh->shader->addInputVariable("TexCoord", RSHADER_VEC2_VARIABLE, RSHADER_FRAGMENT_SHADER);
 
-    //Setup mesh
+    // Setup mesh
     glGenVertexArrays(1, &mesh->VAO);
     glGenBuffers(1, &mesh->VBO);
     glGenBuffers(1, &mesh->EBO);
 
     glBindVertexArray(mesh->VAO);
-    //Load data into vertex buffers
+    // Load data into vertex buffers
     glBindBuffer(GL_ARRAY_BUFFER, mesh->VBO);
     glBufferData(GL_ARRAY_BUFFER, mesh->vertices.size() * sizeof(Vertex), &mesh->vertices[0], GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indices.size() * sizeof(GLuint), &mesh->indices[0], GL_STATIC_DRAW);
 
-    //Set the vertex attribute pointers
-    //Vertex Positions
+    // Set the vertex attribute pointers
+    // Vertex Positions
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)0);
     // Vertex Normals
@@ -223,12 +223,12 @@ void R3DObject::setupMesh(Mesh *mesh)
 
     glBindVertexArray(0);
 
-    //Setup textures of the mesh
+    // Setup textures of the mesh
     unsigned diffuseTexturesCounter = 0;
     unsigned specularTexturesCounter = 0;
     unsigned normalTexturesCounter = 0;
 
-    //We will add this line to the fragment shader
+    // We will add this line to the fragment shader
     std::string line = "color = ";
 
     float weight = 1.0f / mesh->textures.size();
@@ -266,7 +266,7 @@ void R3DObject::setupMesh(Mesh *mesh)
         line.append("texture(" + mesh->textures[i]->name + ", TexCoord) * " + std::to_string(weight) + " + ");
     }
 
-    //Remove last two symbols ("+ ") and append ";"
+    // Remove last two symbols ("+ ") and append ";"
     line.pop_back();
     line.pop_back();
     line.pop_back();
@@ -303,7 +303,7 @@ std::vector<R3DObject::Texture*> R3DObject::loadMaterialTextures(const aiMateria
             if(m_textures[j]->path == path)
             {
                 textures.push_back(m_textures[j]);
-                loaded = true; //Texture with the same path is already loaded, skip it
+                loaded = true; // Texture with the same path is already loaded, skip it
                 break;
             }
         }
@@ -364,7 +364,7 @@ void R3DObject::draw()
         }
 
         glm::mat4 view = RCamera::global->getViewMatrix();
-        glm::mat4 projection = glm::perspective(RCamera::global->getZoomRatio(), (float)1920/(float)1080, 0.1f, 100.0f); //DO NOT DO LIKE THIS!!!
+        glm::mat4 projection = glm::perspective(RCamera::global->getZoomRatio(), (float)1920/(float)1080, 0.1f, 100.0f); // DO NOT DO LIKE THIS!!!
 
         glm::vec4 vec(0.320384f, 14.057541f, 0.507779f, 1.0f);
         vec = projection * view * m_modelMatrix * vec;
@@ -378,7 +378,7 @@ void R3DObject::draw()
         glDrawElements(GL_TRIANGLES, mesh->indices.size(), GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 
-        //Unbind those textures
+        // Unbind those textures
         for (unsigned j = 0; j < mesh->textures.size(); ++j)
         {
             glActiveTexture(GL_TEXTURE0 + i);
@@ -390,14 +390,14 @@ void R3DObject::draw()
 RShader* R3DObject::createShaders()
 {
     RShader *shader = new RShader;
-    //Configuring basic vertex shader
+    // Configuring basic vertex shader
     shader->addInputVariable("position", RSHADER_VEC3_VARIABLE, RSHADER_VERTEX_SHADER, true);
     shader->addUniform("model", RSHADER_MAT4X4_VARIABLE, RSHADER_VERTEX_SHADER);
     shader->addUniform("view", RSHADER_MAT4X4_VARIABLE, RSHADER_VERTEX_SHADER);
     shader->addUniform("projection", RSHADER_MAT4X4_VARIABLE, RSHADER_VERTEX_SHADER);
     shader->addAction("gl_Position = projection * view * model * vec4(position, 1.0f);\n", RSHADER_VERTEX_SHADER);
 
-    //Configuring basic fragment shader
+    // Configuring basic fragment shader
     shader->addOutputVariable("color", RSHADER_VEC4_VARIABLE, RSHADER_FRAGMENT_SHADER, false);
 
     return shader;

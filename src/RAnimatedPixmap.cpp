@@ -14,11 +14,11 @@
  * Copyright (C) 2015 Sergey Popov <sergobot@vivaldi.net>
 **/
 
-//Realio
+// Realio
 #include "RAnimatedPixmap.h"
-//C++
+// C++
 #include <iostream>
-//STB
+// STB
 #include "stb/stb_image.h"
 
 namespace Realio {
@@ -92,17 +92,17 @@ bool RAnimatedPixmap::loadFile(const char *file)
         m_width = img->w;
     }
 
-    //Update vertex shader
+    // Update vertex shader
     m_shader->addInputVariable("texCoord", RSHADER_VEC2_VARIABLE, RSHADER_VERTEX_SHADER, true);
     m_shader->addOutputVariable("TexCoord", RSHADER_VEC2_VARIABLE, RSHADER_VERTEX_SHADER, false);
     m_shader->addAction("TexCoord = vec2(texCoord.x, 1.0 - texCoord.y);\n", RSHADER_VERTEX_SHADER);
-    //Update fragment shader
+    // Update fragment shader
     m_shader->addInputVariable("TexCoord", RSHADER_VEC2_VARIABLE, RSHADER_FRAGMENT_SHADER, false);
     m_shader->addUniform("Texture", RSHADER_SAMPLER2D_VARIABLE, RSHADER_FRAGMENT_SHADER);
     m_shader->addAction("color = texture(Texture, TexCoord).rgba;\n", RSHADER_FRAGMENT_SHADER);
 
     initializeVertices();
-    //Compile those shaders
+    // Compile those shaders
     m_shader->compileShaders();
 
     glGenTextures(1, &m_texture);
@@ -115,7 +115,7 @@ bool RAnimatedPixmap::loadFile(const char *file)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    //Create texture
+    // Create texture
     if(img->comp == 3)
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, img->image);
     else if(img->comp == 4)

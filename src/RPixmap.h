@@ -17,7 +17,7 @@
 #ifndef RPIXMAP_H
 #define RPIXMAP_H
 
-//Realio
+// Realio
 #include "RWidget.h"
 
 namespace Realio {

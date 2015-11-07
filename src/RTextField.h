@@ -17,9 +17,9 @@
 #ifndef RTEXTFIELD_H
 #define RTEXTFIELD_H
 
-//Realio
+// Realio
 #include "RPixmap.h"
-//C++
+// C++
 #include "string"
 
 namespace Realio {

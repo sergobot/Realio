@@ -17,23 +17,23 @@
 #ifndef RWINDOW_H
 #define RWINDOW_H
 
-//Realio
+// Realio
 #include "RPixmap.h"
-//C++
+// C++
 #include <iostream>
 #include <string>
 #include <vector>
-//SDL2
+// SDL2
 #include <SDL2/SDL.h>
 
 namespace Realio {
-//Cursor types
+// Cursor types
 enum RWindowCursorType {
-    CURSOR_ARROW,   //Arrow cursor
-    CURSOR_IBEAM,   //I-beam cursor
-    CURSOR_WAIT,    //Wait cursor
-    CURSOR_NO,      //No cursor
-    CURSOR_HAND     //Hand cursor
+    CURSOR_ARROW,   // Arrow cursor
+    CURSOR_IBEAM,   // I-beam cursor
+    CURSOR_WAIT,    // Wait cursor
+    CURSOR_NO,      // No cursor
+    CURSOR_HAND     // Hand cursor
 };
 
 class RWindow

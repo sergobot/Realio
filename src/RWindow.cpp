@@ -14,9 +14,9 @@
  * Copyright (C) 2015 Sergey Popov <sergobot@vivaldi.net>
 **/
 
-//Realio
+// Realio
 #include "RWindow.h"
-//C++
+// C++
 #include <algorithm>
 
 namespace Realio {
@@ -105,7 +105,7 @@ bool RWindow::initializeSDL()
     m_surface = SDL_GetWindowSurface(m_window);
     m_context = SDL_GL_CreateContext(m_window);
 
-    //Init cursors
+    // Init cursors
     m_systemCursors[0] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
     m_systemCursors[1] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_IBEAM);
     m_systemCursors[2] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_WAIT);
@@ -279,7 +279,7 @@ void RWindow::deleteWidget(const unsigned ID)
         switch(e.type)
         {
             case SDL_QUIT:
-                //User requests quit
+                // User requests quit
                 quit = true;
                 break;
             case SDL_APP_TERMINATING:

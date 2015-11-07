@@ -17,9 +17,9 @@
 #ifndef RGAME_H
 #define RGAME_H
 
-//Realio
+// Realio
 #include "RWindow.h"
-//C++
+// C++
 #include <iostream>
 #include <string>
 
