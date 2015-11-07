@@ -24,10 +24,15 @@ RWindow::RWindow(const std::string & title = "")
     : m_title(title)
     , m_window(nullptr)
     , m_surface(nullptr)
-    , callback(nullptr)
-    , quit(false)
     , m_cursorType(CURSOR_ARROW)
 {
+    m_width = 0;
+    m_height = 0;
+    m_shown = false;
+    quit = false;
+    callback = nullptr;
+
+
     if(!initializeSDL())
     {
         std::cerr << "Exiting.\n";
