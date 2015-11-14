@@ -140,6 +140,7 @@ R3DObject::Mesh R3DObject::processMesh(const aiMesh *mesh, const aiScene *scene)
         }
         else
             vertex.texCoord = glm::vec2(0.0f, 0.0f);
+
         if(mesh->mTangents != nullptr)
         {
             // Tangent
@@ -199,10 +200,10 @@ void R3DObject::setupMesh(Mesh *mesh)
     // Vertex shader
     mesh->shader->addInputVariable("normal", RSHADER_VEC3_VARIABLE, RSHADER_VERTEX_SHADER);
     mesh->shader->addInputVariable("texCoord", RSHADER_VEC2_VARIABLE, RSHADER_VERTEX_SHADER);
-    mesh->shader->addOutputVariable("TexCoord", RSHADER_VEC2_VARIABLE, RSHADER_VERTEX_SHADER);
+    mesh->shader->addOutputVariable("TexCoord", RSHADER_VEC2_VARIABLE, RSHADER_VERTEX_SHADER, false);
     mesh->shader->addAction("TexCoord = texCoord;\n", RSHADER_VERTEX_SHADER);
     // Fragment shader
-    mesh->shader->addInputVariable("TexCoord", RSHADER_VEC2_VARIABLE, RSHADER_FRAGMENT_SHADER);
+    mesh->shader->addInputVariable("TexCoord", RSHADER_VEC2_VARIABLE, RSHADER_FRAGMENT_SHADER, false);
 
     // Setup mesh
     glGenVertexArrays(1, &mesh->VAO);
@@ -378,9 +379,6 @@ void R3DObject::draw()
 
         glm::mat4 view = RCamera::global->getViewMatrix();
         glm::mat4 projection = glm::perspective(RCamera::global->getZoomRatio(), (float)1920/(float)1080, 0.1f, 100.0f); // DO NOT DO LIKE THIS!!!
-
-        glm::vec4 vec(0.320384f, 14.057541f, 0.507779f, 1.0f);
-        vec = projection * view * m_modelMatrix * vec;
 
         // Pass the matrices to the shader
         glUniformMatrix4fv(glGetUniformLocation(mesh->shader->getProgram(), "model"), 1, GL_FALSE, glm::value_ptr(m_modelMatrix));
