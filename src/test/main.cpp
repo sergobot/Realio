@@ -16,6 +16,7 @@
 
 #include "../RWindow.h"
 #include "../RAnimatedPixmap.h"
+#include "../R3DScene.h"
 #include <string>
 
 Realio::RWindow window("Test");
@@ -27,6 +28,15 @@ int main(int argc, char **argv)
     // Unused parameters
     (void)argc;
     (void)argv;
+
+    Realio::R3DObject *obj = new Realio::R3DObject;
+    obj->loadModel("nanosuit/nanosuit.obj");
+    obj->translate(glm::vec3(0.0f, -1.75f, 0.0f));
+    obj->scale(0.2f);
+
+    Realio::R3DScene *scene = new Realio::R3DScene;
+    scene->addObject(obj);
+    window.set3DScene(scene);
 
     pixmap = new Realio::RAnimatedPixmap();
     pixmap->loadFile("image1.png");
@@ -45,6 +55,8 @@ int main(int argc, char **argv)
     }
 
     delete pixmap;
+    delete obj;
+    delete scene;
 
     return 0;
 }

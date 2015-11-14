@@ -31,7 +31,7 @@ RWindow::RWindow(const std::string & title = "")
     m_shown = false;
     quit = false;
     callback = nullptr;
-
+    m_scene = nullptr;
 
     if(!initializeSDL())
     {
@@ -49,6 +49,7 @@ RWindow::RWindow(const std::string & title = "")
 
     // Enable blending
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     glEnable(GL_BLEND);
 }
 
@@ -318,6 +319,9 @@ void RWindow::deleteWidget(const unsigned ID)
         }
     }
 
+    if(m_scene != nullptr)
+        m_scene->draw();
+
     for(unsigned i = 0; i < m_widgets.size(); ++i)
         m_widgets[i]->update();
 
@@ -362,5 +366,10 @@ bool RWindow::shouldQuit()
 void RWindow::setKeyCallback(void (*func)(SDL_Event e))
 {
     callback = func;
+}
+
+void RWindow::set3DScene(R3DScene *scene)
+{
+    m_scene = scene;
 }
 }

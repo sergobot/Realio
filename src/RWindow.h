@@ -19,6 +19,7 @@
 
 // Realio
 #include "RPixmap.h"
+#include "R3DScene.h"
 // C++
 #include <iostream>
 #include <string>
@@ -140,6 +141,13 @@ public:
      */
     void setKeyCallback(void (*func)(SDL_Event e));
 
+    /**
+     * @brief sets 3D scene to be drawn on every RWindow::update call.
+     * @param pointer to an object of R3DScene class.
+     * @return void.
+     */
+    void set3DScene(R3DScene *scene);
+
 private:
     std::string m_title;
     SDL_Window *m_window;
@@ -149,6 +157,8 @@ private:
     SDL_Cursor *m_systemCursors[5];
     RPixmap *m_customCursors[4];
     RWindowCursorType m_cursorType;
+
+    R3DScene *m_scene;
 
     std::vector<RWidget*> m_widgets;
     std::vector<unsigned> m_IDs;
