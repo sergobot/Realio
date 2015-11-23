@@ -51,6 +51,7 @@ RAnimatedPixmap::RAnimatedPixmap()
     for(unsigned i = 0; i < m_images.size(); ++i)
     {
         stbi_image_free(m_images[i]->image);
+        glDeleteTextures(1, &m_images[i]->id);
         delete m_images.at(i);
     }
 
@@ -72,6 +73,24 @@ bool RAnimatedPixmap::loadFile(const char *file)
     else
         imgLoaded = true;
 
+    //Load the image to the video card
+    glGenTextures(1, &img->id);
+    glBindTexture(GL_TEXTURE_2D, img->id);
+
+    // Set texture parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // Set texture filtering
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // Create texture
+    glTexImage2D(GL_TEXTURE_2D, 0, img->comp == 3 ? GL_RGB : GL_RGBA, img->w, img->h,
+                 0, img->comp == 3 ? GL_RGB : GL_RGBA, GL_UNSIGNED_BYTE, img->image);
+
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
     img->index = m_images.size();
 
     m_images.push_back(img);
@@ -84,13 +103,11 @@ bool RAnimatedPixmap::loadFile(const char *file)
     if(!imgLoaded)
         return;
 
-    Image *img = m_images[currentFrame];
+    Image *img = m_images[0];
 
-    if(!m_height && !m_width)
-    {
-        m_height = img->h;
-        m_width = img->w;
-    }
+    m_height = img->h;
+    m_width = img->w;
+    m_texture = img->id; // Set default texture ID to the image's one
 
     // Update vertex shader
     m_shader->addInputVariable("texCoord", RSHADER_VEC2_VARIABLE, RSHADER_VERTEX_SHADER, true);
@@ -104,25 +121,6 @@ bool RAnimatedPixmap::loadFile(const char *file)
     initializeVertices();
     // Compile those shaders
     m_shader->compileShaders();
-
-    glGenTextures(1, &m_texture);
-    glBindTexture(GL_TEXTURE_2D, m_texture);
-
-    // Set texture parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    // Set texture filtering
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    // Create texture
-    if(img->comp == 3)
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, img->image);
-    else if(img->comp == 4)
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img->image);
-
-    glGenerateMipmap(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, 0);
 
     update();
 }
@@ -149,7 +147,9 @@ void RAnimatedPixmap::nextFrame()
 
     m_width = img->w;
     m_height = img->h;
+    m_texture = img->id; // Set default texture ID to the image's one
 
-    show();
+    initializeVertices();
+    update();
 }
 }

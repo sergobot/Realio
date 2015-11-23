@@ -65,6 +65,7 @@ private:
         unsigned char *image;
         int w, h, comp;
         int index;
+        GLuint id;
     };
     std::vector<Image*> m_images;
 

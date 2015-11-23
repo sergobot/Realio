@@ -50,7 +50,10 @@ RPixmap::RPixmap()
 /*virtual*/ RPixmap::~RPixmap()
 {
     if(imgLoaded)
+    {
         stbi_image_free(m_image);
+        glDeleteTextures(1, &m_texture);
+    }
 
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
@@ -59,6 +62,9 @@ RPixmap::RPixmap()
 
 bool RPixmap::loadFile(const char *file)
 {
+    if(!imgLoaded)
+        glGenTextures(1, &m_texture);
+
     imgLoaded = false;
     m_image = stbi_load(file, &img_width, &img_height, &comp, STBI_rgb_alpha);
 
@@ -66,6 +72,7 @@ bool RPixmap::loadFile(const char *file)
     {
         std::cerr << "Could not load image '" << file << "' to RPixmap: ";
         std::cerr << stbi_failure_reason() << std::endl;
+        glDeleteTextures(1, &m_texture); // Delete texture
         return imgLoaded;
     }
     else
@@ -76,6 +83,22 @@ bool RPixmap::loadFile(const char *file)
         m_height = img_height;
         m_width = img_width;
     }
+
+    glBindTexture(GL_TEXTURE_2D, m_texture);
+
+    // Set texture parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // Set texture filtering
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // Create texture
+    glTexImage2D(GL_TEXTURE_2D, 0, comp == 3 ? GL_RGB : GL_RGBA, m_width, m_height,
+                 0, comp == 3 ? GL_RGB : GL_RGBA, GL_UNSIGNED_BYTE, m_image);
+
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
 
     return imgLoaded;
 }
@@ -96,25 +119,6 @@ bool RPixmap::loadFile(const char *file)
     initializeVertices();
     // Compile those shaders
     m_shader->compileShaders();
-
-    glGenTextures(1, &m_texture);
-    glBindTexture(GL_TEXTURE_2D, m_texture);
-
-    // Set texture parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    // Set texture filtering
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    // Create texture
-    if(comp == 3)
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, m_image);
-    else if(comp == 4)
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_image);
-
-    glGenerateMipmap(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, 0);
 
     update();
 }
